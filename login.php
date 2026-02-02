@@ -1,5 +1,16 @@
 <!--PAGE login.php !-->
 <?php
+// Cookie de session : même chemin que l'app (ex. /Filmogram/) pour cohérence avec check_session.php
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
+if ($path === '//') $path = '/';
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => $path,
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
 // Démarrer la session
 session_start();
 
@@ -11,6 +22,9 @@ $password = ''; // Vide par défaut sur XAMPP
 
 // Message d'erreur
 $error_message = '';
+
+// Afficher la popup "Veuillez vous connecter" si redirection depuis Panier/Profil
+$show_connect_message = isset($_GET['require_login']);
 
 // Vérifier si le formulaire a été soumis
 if (isset($_POST['Connexion'])) {
@@ -174,9 +188,37 @@ if (isset($_POST['Connexion'])) {
         .signup a:hover {
             text-decoration: underline;
         }
+
+        .connect-popup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 9999;
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; top: -50px; }
+            to { opacity: 1; top: 20px; }
+        }
     </style>
 </head>
 <body>
+    <?php if ($show_connect_message): ?>
+    <div class="connect-popup" id="connectPopup">Veuillez vous connecter</div>
+    <script>
+        setTimeout(function() {
+            var p = document.getElementById('connectPopup');
+            if (p) p.style.display = 'none';
+        }, 4000);
+    </script>
+    <?php endif; ?>
     <div class="login-container">
         <div class="illustration">
             <img src="img/batman_001.png" alt="Illustration">

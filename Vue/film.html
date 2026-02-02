@@ -23,13 +23,13 @@
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-             <!-- Menu de navigation -->
+             <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
             <ul class="nav-menu">
                 <a href="../index.html">Accueil</a>
-                <a href="film.html">Films</a>
-                <a href="panier.html">Panier</a>
-                <a href="profil.html">Profil</a>
-                <a href="login.php">Connexion</a>
+                <a href="/Vue/film.html">Films</a>
+                <a href="/Vue/panier.html">Panier</a>
+                <a href="/Vue/profil.html">Profil</a>
+                <a href="../login.php">Connexion</a>
             </ul>
 
             <!-- Bouton toggle (menu burger pour mobile) -->
@@ -186,5 +186,21 @@
     <!-- ===================== SCRIPT JS ===================== -->
     <!-- Fichier JavaScript pour gérer l'affichage des films -->
     <script src="../js/films.js"></script>
+
+    <!-- Vérification de la session de l'utilisateur : redirection si non connecté -->
+    <script>
+        (function() {
+            fetch('../check_session.php', { credentials: 'include' })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.logged_in) {
+                        document.getElementById('nav-panier').style.display = '';
+                        document.getElementById('nav-profil').style.display = '';
+                        document.getElementById('nav-connexion').style.display = 'none';
+                    }
+                })
+                .catch(function() {});
+        })();
+    </script>
 </body>
 </html>

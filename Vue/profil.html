@@ -14,7 +14,23 @@
 </head>
 <body>
 
-    <script src="../js/auth.js"></script>
+    <!-- Vérification de la session : redirection si non connecté -->
+    <script>
+        (function() {
+            fetch('../check_session.php', { credentials: 'include' })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data.logged_in) {
+                        alert('Veuillez vous connecter');
+                        window.location.href = '../login.php?require_login=1';
+                    }
+                })
+                .catch(function() {
+                    alert('Veuillez vous connecter');
+                    window.location.href = '../login.php?require_login=1';
+                });
+        })();
+    </script>
     
     <!-- ===================== HEADER ===================== -->
     <header class="header">

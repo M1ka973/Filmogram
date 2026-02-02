@@ -1,3 +1,13 @@
+<?php
+// ✅ PREMIÈRE CHOSE : vérification de session côté serveur
+// Rien ne s'affiche tant que l'utilisateur n'est pas connecté
+session_start();
+
+if (!isset($_SESSION['iduser'])) {
+    header("Location: ../login.php?require_login=1");
+    exit(); // IMPORTANT : arrête l'exécution, rien n'est envoyé au navigateur
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -326,8 +336,24 @@
 </head>
 <body>
                         <!--FIN DE LA SECTION CSS -->
-    
-       <script src="../js/auth.js"></script>
+
+    <!-- Vérification de la session : redirection si non connecté -->
+    <script>
+        (function() {
+            fetch('../check_session.php', { credentials: 'include' })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data.logged_in) {
+                        alert('Veuillez vous connecter');
+                        window.location.href = '../login.php?require_login=1';
+                    }
+                })
+                .catch(function() {
+                    alert('Veuillez vous connecter');
+                    window.location.href = '../login.php?require_login=1';
+                });
+        })();
+    </script>
 
     <!-- ===================== HEADER ===================== -->
     <header class="header">
@@ -336,15 +362,13 @@
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-
              <!-- Menu de navigation -->
             <ul class="nav-menu">
                 <a href="../index.html">Accueil</a>
                 <a href="film.html">Films</a>
-                <a href="panier.html">Panier</a>
+                <a href="panier.php">Panier</a>
                 <a href="profil.html">Profil</a>
             </ul>
-
 
             <div class="nav-toggle">
                 <span></span>
@@ -385,7 +409,6 @@
                         <span id="total">0,00 €</span>
                     </div>
                     <button class="checkout-btn" id="checkoutBtn" disabled>
-    
                         <i class="fas fa-credit-card"></i> Procéder au paiement
                     </button>
                 </div>
@@ -393,13 +416,7 @@
         </div>
     </main>
 
-    <!-- ===================== FOOTER // Vérifie si l'utilisateur est connecté
-    const user = localStorage.getItem('user'); // ou 'authToken' selon ton code de login
-
-    if (!user) {
-        // Si pas connecté, redirige vers la page de connexion
-        window.location.href = "panier.html";
-    }===================== -->
+    <!-- ===================== FOOTER ===================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -412,15 +429,11 @@
                 <div class="footer-section">
                     <h4>Liens rapides</h4>
                     <ul class="nav-menu">
-                <!-- Lien vers la page d'accueil -->
-                <li><a href="index.html">Accueil</a></li>
-                <!-- Lien vers la page des films (actif sur cette page) -->
-                <li><a href="Vue/film.html" class="active">Films</a></li>
-                <!-- Lien vers le panier -->
-                <li><a href="Vue/panier.html">Panier</a></li>
-                <!-- Lien vers la page de profil -->
-                <li><a href="Vue/profil.html">Profil</a></li>
-            </ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="Vue/film.html" class="active">Films</a></li>
+                        <li><a href="Vue/panier.php">Panier</a></li>
+                        <li><a href="Vue/profil.html">Profil</a></li>
+                    </ul>
                 </div>
 
                 <div class="footer-section">
@@ -489,13 +502,10 @@
             }
 
             removeFromCart(filmId) {
-                // Trouver le film à supprimer pour afficher son nom
                 const itemToRemove = this.cart.find(item => item.id === filmId);
                 
                 if (itemToRemove) {
-                    // Confirmation avant suppression
                     if (confirm(`Êtes-vous sûr de vouloir supprimer "${itemToRemove.title}" de votre panier ?`)) {
-                        // Filtrer le panier pour retirer l'élément
                         this.cart = this.cart.filter(item => item.id !== filmId);
                         this.saveCart();
                         this.renderCart();
@@ -529,8 +539,11 @@
             }
 
             updateCartCount() {
-                const count = this.cart.reduce((total, item) => total + item.quantity, 0);
-                document.getElementById('cartCount').textContent = count;
+                const countEl = document.getElementById('cartCount');
+                if (countEl) {
+                    const count = this.cart.reduce((total, item) => total + item.quantity, 0);
+                    countEl.textContent = count;
+                }
             }
 
             renderCart() {
@@ -550,27 +563,28 @@
                     `;
                     cartSummary.style.display = 'none';
                 } else {
+                    // ✅ Securisation : échapper les données avant de les insérer dans le DOM
                     cartItemsContainer.innerHTML = this.cart.map(item => `
-                        <div class="cart-item" data-id="${item.id}">
+                        <div class="cart-item" data-id="${Number(item.id)}">
                             <div class="item-image">
                                 <i class="fas fa-film"></i>
                             </div>
                             <div class="item-details">
-                                <div class="item-title">${item.title}</div>
-                                <div class="item-genre">${item.genre}</div>
-                                <div class="item-price">${item.price.toFixed(2)} €</div>
+                                <div class="item-title">${this.escapeHtml(item.title)}</div>
+                                <div class="item-genre">${this.escapeHtml(item.genre)}</div>
+                                <div class="item-price">${parseFloat(item.price).toFixed(2)} €</div>
                             </div>
                             <div class="item-controls">
                                 <div class="quantity-controls">
-                                    <button class="quantity-btn" onclick="cartManager.updateQuantity(${item.id}, ${item.quantity - 1})">
+                                    <button class="quantity-btn" onclick="cartManager.updateQuantity(${Number(item.id)}, ${Number(item.quantity) - 1})">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <span class="quantity-display">${item.quantity}</span>
-                                    <button class="quantity-btn" onclick="cartManager.updateQuantity(${item.id}, ${item.quantity + 1})">
+                                    <span class="quantity-display">${Number(item.quantity)}</span>
+                                    <button class="quantity-btn" onclick="cartManager.updateQuantity(${Number(item.id)}, ${Number(item.quantity) + 1})">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
-                                <button class="remove-btn" onclick="cartManager.removeFromCart(${item.id})">
+                                <button class="remove-btn" onclick="cartManager.removeFromCart(${Number(item.id)})">
                                     <i class="fas fa-trash"></i> Supprimer
                                 </button>
                             </div>
@@ -582,9 +596,16 @@
                 }
             }
 
+            // ✅ Fonction pour échapper les caractères spéciaux (anti-XSS)
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.appendChild(document.createTextNode(String(text)));
+                return div.innerHTML;
+            }
+
             updateSummary() {
                 const subtotal = this.getTotal();
-                const total = subtotal; // Pas de frais de service pour l'instant
+                const total = subtotal;
                 
                 document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} €`;
                 document.getElementById('total').textContent = `${total.toFixed(2)} €`;
@@ -594,7 +615,6 @@
             }
 
             bindEvents() {
-                // Gestion du bouton de paiement
                 document.getElementById('checkoutBtn').addEventListener('click', () => {
                     this.proceedToCheckout();
                 });
@@ -606,12 +626,10 @@
                     return;
                 }
                 
-                // Vérifier si l'utilisateur est connecté (via session PHP)
-                // Redirection vers la page de paiement
                 this.showNotification('Redirection vers le paiement...', 'success');
                 
                 setTimeout(() => {
-                    window.location.href = 'paiement.html';
+                    window.location.href = 'paiement.php';
                 }, 500);
             }
 
@@ -628,19 +646,12 @@
 
         // Initialiser le gestionnaire de panier
         const cartManager = new CartManager();
-
-        // Exposer cartManager globalement pour les boutons onclick
         window.cartManager = cartManager;
-
-    
 
         // Gestion du menu mobile
         document.querySelector('.nav-toggle').addEventListener('click', () => {
             document.querySelector('.nav-menu').classList.toggle('active');
         });
-
-
     </script>
 </body>
 </html>
-
