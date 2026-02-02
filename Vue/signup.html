@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription • Filmogram</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #0f0f12;
+    --panel: #17181c;
+    --text: #e8e8ea;
+    --muted: #a0a3ad;
+    --primary: #6c5ce7;
+    --danger: #ff5757;
+    --ok: #2ecc71;
+    --border: #2a2d36;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    background: var(--bg); color: var(--text);
+    min-height: 100dvh; display: grid; place-items: center; padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 420px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; box-shadow: 0 10px 30px rgb(0 0 0 / 25%);
+  }
+  h1 { margin: 0 0 6px; font-size: 24px; }
+  p.sub { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+  label { display: block; font-size: 14px; margin: 14px 0 6px; }
+  input[type="email"], input[type="password"] {
+    width: 100%; padding: 12px 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: #101116; color: var(--text); outline: none; transition: border-color .2s ease;
+  }
+  input:focus { border-color: var(--primary); }
+  .row { display: grid; gap: 14px; }
+  .btn {
+    margin-top: 18px; width: 100%; padding: 12px 14px; border: 0; border-radius: 10px;
+    background: var(--primary); color: white; font-weight: 600; cursor: pointer;
+  }
+  .btn[disabled] { opacity: .6; cursor: not-allowed; }
+  .helper { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .error { color: var(--danger); font-size: 12px; margin-top: 6px; display: none; }
+  .requirements { margin: 10px 0 0; padding-left: 18px; font-size: 12px; color: var(--muted); }
+  .requirements li { margin: 4px 0; }
+  .requirements li.valid { color: var(--ok); }
+  .requirements li.invalid { color: var(--danger); }
+  .strength {
+    margin-top: 10px; height: 8px; background: #0e0f13; border-radius: 999px; border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .strength > span { display: block; height: 100%; width: 0%; background: var(--danger); transition: width .2s ease, background .2s ease; }
+  .foot { margin-top: 16px; font-size: 12px; color: var(--muted); }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  form { margin: 0; }
+</style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Créer un compte</h1>
+    <p class="sub">Rejoignez Filmogram pour sauvegarder vos films et listes.</p>
+
+    <form id="signupForm" method="post" action="#" novalidate>
+      <div class="row">
+        <div>
+          <label for="email">Adresse e‑mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="exemple@domaine.com"
+            required
+            pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+            aria-describedby="emailHelp emailError"
+          />
+          <div id="emailHelp" class="helper">Utilisez une adresse e‑mail valide que vous consultez.</div>
+          <div id="emailError" class="error">Veuillez saisir une adresse e‑mail valide.</div>
+        </div>
+
+        <div>
+          <label for="password">Mot de passe</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Mot de passe sécurisé"
+            required
+            minlength="12"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,128}$"
+            aria-describedby="pwdReq pwdError"
+          />
+          <ul id="pwdReq" class="requirements" aria-live="polite">
+            <li data-check="len" class="invalid">Au moins 12 caractères</li>
+            <li data-check="lower" class="invalid">Une lettre minuscule</li>
+            <li data-check="upper" class="invalid">Une lettre majuscule</li>
+            <li data-check="digit" class="invalid">Un chiffre</li>
+            <li data-check="special" class="invalid">Un caractère spécial (!@#$…)</li>
+            <li data-check="space" class="invalid">Pas d’espace</li>
+          </ul>
+          <div class="strength" aria-hidden="true"><span id="strengthBar"></span></div>
+          <div id="pwdError" class="error">Le mot de passe ne respecte pas les règles ci‑dessus.</div>
+        </div>
+
+        <button id="submitBtn" class="btn" type="submit" disabled>Créer mon compte</button>
+      </div>
+    </form>
+
+    <p class="foot">En vous inscrivant, vous acceptez nos conditions d’utilisation</a> et notre politique de confidentialité</a>.</p>
+  </main>
+
+<script>
+  (function() {
+    const form = document.getElementById('signupForm');
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+    const passwordInput = document.getElementById('password');
+    const submitBtn = document.getElementById('submitBtn');
+    const reqList = document.getElementById('pwdReq');
+    const strengthBar = document.getElementById('strengthBar');
+
+    const emailRegex = new RegExp(emailInput.getAttribute('pattern'));
+    const rules = {
+      len: (v) => v.length >= 12 && v.length <= 128,
+      lower: (v) => /[a-z]/.test(v),
+      upper: (v) => /[A-Z]/.test(v),
+      digit: (v) => /\d/.test(v),
+      special: (v) => /[^\w\s]/.test(v),
+      space: (v) => !/\s/.test(v)
+    };
+
+    function validateEmail() {
+      const value = emailInput.value.trim();
+      const ok = value.length > 3 && emailRegex.test(value);
+      emailError.style.display = ok || value.length === 0 ? 'none' : 'block';
+      return ok;
+    }
+
+    function scorePassword(value) {
+      let score = 0;
+      if (rules.len(value)) score += 25;
+      if (rules.lower(value)) score += 15;
+      if (rules.upper(value)) score += 15;
+      if (rules.digit(value)) score += 15;
+      if (rules.special(value)) score += 20;
+      if (rules.space(value)) score += 10;
+      return Math.min(score, 100);
+    }
+
+    function updateRequirements(value) {
+      Array.from(reqList.querySelectorAll('li')).forEach(li => {
+        const check = li.getAttribute('data-check');
+        const ok = rules[check](value);
+        li.classList.toggle('valid', ok);
+        li.classList.toggle('invalid', !ok);
+      });
+      const score = scorePassword(value);
+      strengthBar.style.width = score + '%';
+      strengthBar.style.background = score >= 80 ? 'var(--ok)' : (score >= 50 ? '#f1c40f' : 'var(--danger)');
+    }
+
+    function validatePassword() {
+      const value = passwordInput.value;
+      const ok = Object.values(rules).every(fn => fn(value));
+      document.getElementById('pwdError').style.display = ok || value.length === 0 ? 'none' : 'block';
+      updateRequirements(value);
+      return ok;
+    }
+
+    function updateSubmitState() {
+      const ok = validateEmail() && validatePassword();
+      submitBtn.disabled = !ok;
+    }
+
+    emailInput.addEventListener('input', () => { validateEmail(); updateSubmitState(); });
+    passwordInput.addEventListener('input', () => { validatePassword(); updateSubmitState(); });
+
+    form.addEventListener('submit', (e) => {
+      const emailOk = validateEmail();
+      const pwdOk = validatePassword();
+      if (!emailOk || !pwdOk) {
+        e.preventDefault();
+        updateSubmitState();
+        return;
+      }
+      // Exemple: prévenir l’envoi réel si aucun backend n’est connecté
+      e.preventDefault();
+      alert('Inscription prête à être envoyée. Intégrez ici l’appel serveur.');
+    });
+
+    // Initial
+    updateRequirements('');
+    updateSubmitState();
+  })();
+</script>
+</body>
+</html>
+

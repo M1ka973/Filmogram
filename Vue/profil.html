@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Définition de l'encodage en UTF-8 -->
+    <meta charset="UTF-8">
+    <!-- Adaptation de la page pour le responsive design (mobiles, tablettes, PC) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page affiché dans l'onglet -->
+    <title>Profil | FILMOGRAM</title>
+    <!-- Lien vers la feuille de style CSS personnalisée -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Lien vers la librairie Font Awesome (icônes) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <script src="../js/auth.js"></script>
+    
+    <!-- ===================== HEADER ===================== -->
+    <header class="header">
+        <nav class="navbar">
+            <!-- Logo / Nom du site -->
+            <div class="nav-brand">
+                <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
+            </div>
+
+
+
+             <!-- Menu de navigation -->
+            <ul class="nav-menu">
+                <a href="../index.html">Accueil</a>
+                <a href="film.html">Films</a>
+                <a href="panier.html">Panier</a>
+                <a href="profil.html">Profil</a>
+                
+            </ul>
+
+
+
+            <!-- Bouton "menu burger" pour mobiles -->
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="main-content">
+        <!-- Section Hero -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2><i class="fas fa-user"></i> Mon Profil</h2>
+                <p>Gérez vos informations personnelles</p>
+            </div>
+        </section>
+
+        <!-- Section Profil -->
+        <section class="profile-section">
+            <div class="container">
+                <div class="profile-container">
+                    <!-- Carte de profil -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="profile-info">
+                                <h3 id="user-name">Jean Dupont</h3>
+                                <p id="user-email">jean.dupont@email.com</p>
+                                <span class="member-since">Membre depuis 2024</span>
+                            </div>
+                        </div>
+
+                        <!-- Informations du compte -->
+                        <div class="profile-details">
+                            <h4><i class="fas fa-info-circle"></i> Informations du compte</h4>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label><i class="fas fa-user"></i> Prénom :</label>
+                                    <span id="display-prenom">-</span>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <label><i class="fas fa-user"></i> Nom :</label>
+                                    <span id="display-nom">-</span>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <label><i class="fas fa-envelope"></i> Email :</label>
+                                    <span id="display-email">-</span>
+                                </div>
+
+                                <div class="info-item">
+                                    <label><i class="fas fa-phone"></i> Téléphone :</label>
+                                    <span id="display-phone">-</span>
+                                </div>
+
+                                <div class="info-item">
+                                    <label><i class="fas fa-map-marker-alt"></i> Adresse :</label>
+                                    <span id="display-address">-</span>
+                                </div>
+                            </div>
+
+                            <!-- Formulaire d'édition de la date de naissance -->
+                            <div class="edit-form" id="birthdate-edit-form" style="display: none;">
+                                <h5>Modifier la date de naissance</h5>
+                                <form id="birthdate-form">
+                                    <div class="form-group">
+                                        <label for="new-birthdate">Nouvelle date de naissance :</label>
+                                        <input type="date" id="new-birthdate" name="birthdate" required>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="save-btn">
+                                            <i class="fas fa-save"></i> Sauvegarder
+                                        </button>
+                                        <button type="button" class="cancel-btn" onclick="cancelEditBirthdate()">
+                                            <i class="fas fa-times"></i> Annuler
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Statistiques du compte -->
+                        <div class="profile-stats">
+                            <h4><i class="fas fa-chart-bar"></i> Statistiques</h4>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="films-purchased">12</div>
+                                    <div class="stat-label">Films achetés</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="total-spent">€89.99</div>
+                                    <div class="stat-label">Total dépensé</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="favorite-genre">Action</div>
+                                    <div class="stat-label">Genre préféré</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions du compte -->
+                        <div class="profile-actions">
+                            <button class="action-btn primary" onclick="editProfile()">
+                                <i class="fas fa-edit"></i> Modifier le profil
+                            </button>
+                            <button class="action-btn secondary" onclick="changePassword()">
+                                <i class="fas fa-lock"></i> Changer le mot de passe
+                            </button>
+                            <button class="action-btn danger" onclick="deleteAccount()">
+                                <i class="fas fa-trash"></i> Supprimer le compte
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Bloc logo + slogan -->
+                <div class="footer-section">
+                    <h3>FILMOGRAM</h3>
+                    <p>Votre plateforme de films préférée</p>
+                </div>
+
+                <!-- Bloc liens rapides -->
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="film.html">Films</a></li>
+                        <li><a href="panier.html">Panier</a></li>
+                        <li><a href="profil.html">Profil</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bloc réseaux sociaux -->
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Texte bas du footer -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 FILMOGRAM. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Charger les données du profil utilisateur au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+        });
+
+        // Fonction pour charger les données du profil utilisateur
+        function loadUserProfile() {
+            fetch('../get_user_profile.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors du chargement du profil');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        console.error('Erreur:', data.error);
+                        showNotification('Erreur lors du chargement du profil : ' + data.error, 'error');
+                        return;
+                    }
+                    
+                    // Afficher les données dans les éléments HTML
+                    document.getElementById('user-name').textContent = data.prenom + ' ' + data.nom;
+                    document.getElementById('user-email').textContent = data.email;
+                    document.getElementById('display-prenom').textContent = data.prenom || '-';
+                    document.getElementById('display-nom').textContent = data.nom || '-';
+                    document.getElementById('display-email').textContent = data.email || '-';
+                    document.getElementById('display-phone').textContent = data.tel || '-';
+                    document.getElementById('display-address').textContent = data.adresse || '-';
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    showNotification('Erreur lors du chargement du profil utilisateur', 'error');
+                });
+        }
+
+        // Gestion de l'édition de la date de naissance
+        function toggleEditBirthdate() {
+            const form = document.getElementById('birthdate-edit-form');
+            const display = document.getElementById('display-birthdate');
+            
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                // Pré-remplir le champ avec la date actuelle
+                const currentDate = display.textContent.split('/').reverse().join('-');
+                document.getElementById('new-birthdate').value = currentDate;
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        function cancelEditBirthdate() {
+            document.getElementById('birthdate-edit-form').style.display = 'none';
+        }
+
+        // Gestion du formulaire de modification
+        const birthdateForm = document.getElementById('birthdate-form');
+        if (birthdateForm) {
+            birthdateForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newDate = document.getElementById('new-birthdate').value;
+                const formattedDate = newDate.split('-').reverse().join('/');
+                
+                // Mettre à jour l'affichage
+                document.getElementById('display-birthdate').textContent = formattedDate;
+                
+                // Masquer le formulaire
+                document.getElementById('birthdate-edit-form').style.display = 'none';
+                
+                // Afficher un message de succès
+                showNotification('Date de naissance mise à jour avec succès !', 'success');
+            });
+        }
+
+        // Fonctions d'actions du profil
+        function editProfile() {
+            showNotification('Fonctionnalité en cours de développement', 'info');
+        }
+
+        function changePassword() {
+            showNotification('Fonctionnalité en cours de développement', 'info');
+        }
+
+        function deleteAccount() {
+            if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
+                showNotification('Fonctionnalité en cours de développement', 'info');
+            }
+        }
+
+        // Fonction pour afficher les notifications
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animation d'apparition
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Suppression automatique après 3 secondes
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

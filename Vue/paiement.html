@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement | FILMOGRAM</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .payment-container {
+            min-height: 100vh;
+            background: #f8f9fa;
+            padding: 2rem 0;
+        }
+        
+        .payment-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .payment-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .payment-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .payment-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .order-summary {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #667eea;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .payment-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .payment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .payment-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #dc3545;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===================== HEADER ===================== -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
+            </div>
+
+            <!-- Menu de navigation -->
+            <ul class="nav-menu">
+                <a href="../index.html">Accueil</a>
+                <a href="film.html">Films</a>
+                <a href="panier.html">Panier</a>
+                <a href="profil.html">Profil</a>
+            </ul>
+
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===================== CONTENU PRINCIPAL ===================== -->
+    <main class="main-content">
+        <div class="payment-container">
+            <!-- En-tête -->
+            <div class="payment-header">
+                <h1><i class="fas fa-credit-card"></i> Paiement</h1>
+                <p>Finalisez votre commande</p>
+            </div>
+
+            <div class="payment-content">
+                <!-- Résumé de la commande -->
+                <div class="payment-card">
+                    <h2><i class="fas fa-shopping-cart"></i> Résumé de la commande</h2>
+                    <div class="order-summary" id="orderSummary">
+                        <!-- Les articles seront injectés ici par JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Formulaire de paiement -->
+                <div class="payment-card">
+                    <h2><i class="fas fa-lock"></i> Informations de paiement</h2>
+                    <form id="paymentForm">
+                        <div class="form-group">
+                            <label for="cardNumber">Numéro de carte</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiryDate">Date d'expiration</label>
+                                <input type="text" id="expiryDate" placeholder="MM/AA" maxlength="5" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cardName">Nom sur la carte</label>
+                            <input type="text" id="cardName" placeholder="Jean Dupont" required>
+                        </div>
+                        
+                        <button type="submit" class="payment-btn" id="submitBtn">
+                            <i class="fas fa-check"></i> Confirmer le paiement
+                        </button>
+                    </form>
+                    
+                    <a href="panier.html" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Retour au panier
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FILMOGRAM</h3>
+                    <p>Votre plateforme de films préférée</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="film.html">Films</a></li>
+                        <li><a href="panier.html">Panier</a></li>
+                        <li><a href="profil.html">Profil</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 FILMOGRAM. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPT JS ===================== -->
+    <script>
+        // Charger le panier depuis localStorage
+        function loadCart() {
+            const cart = localStorage.getItem('filmogram_cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        // Afficher le résumé de la commande
+        function renderOrderSummary() {
+            const cart = loadCart();
+            const orderSummary = document.getElementById('orderSummary');
+            
+            if (cart.length === 0) {
+                orderSummary.innerHTML = '<p>Votre panier est vide. <a href="panier.html">Retour au panier</a></p>';
+                document.getElementById('submitBtn').disabled = true;
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                html += `
+                    <div class="order-item">
+                        <span>${item.title} x${item.quantity}</span>
+                        <span>${itemTotal.toFixed(2)} €</span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                <div class="order-total">
+                    <span>Total</span>
+                    <span>${total.toFixed(2)} €</span>
+                </div>
+            `;
+            
+            orderSummary.innerHTML = html;
+        }
+
+        // Formatage du numéro de carte
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Formatage de la date d'expiration
+        document.getElementById('expiryDate').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Formatage du CVV (chiffres uniquement)
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cart = loadCart();
+            if (cart.length === 0) {
+                showNotification('Votre panier est vide !', 'error');
+                return;
+            }
+            
+            // Désactiver le bouton pendant le traitement
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
+            
+            // Simulation du traitement du paiement
+            setTimeout(() => {
+                // Vider le panier après paiement réussi
+                localStorage.removeItem('filmogram_cart');
+                
+                showNotification('Paiement réussi ! Redirection...', 'success');
+                
+                // Redirection vers la page d'accueil après 2 secondes
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 2000);
+            }, 2000);
+        });
+
+        // Fonction pour afficher les notifications
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            renderOrderSummary();
+            
+            // Gestion du menu mobile
+            document.querySelector('.nav-toggle').addEventListener('click', () => {
+                document.querySelector('.nav-menu').classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
+

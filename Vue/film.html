@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Définition de l'encodage en UTF-8 -->
+    <meta charset="UTF-8">
+    <!-- Adaptation de la page pour le responsive design (mobiles, tablettes, PC) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre de la page affiché dans l'onglet -->
+    <title>Films | FILMOGRAM</title>
+    <!-- Lien vers la feuille de style CSS personnalisée -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Lien vers la librairie Font Awesome (icônes) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ===================== HEADER ===================== -->
+    <header class="header">
+        <nav class="navbar">
+            <!-- Logo / Nom du site -->
+            <div class="nav-brand">
+                <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
+            </div>
+
+             <!-- Menu de navigation -->
+            <ul class="nav-menu">
+                <a href="../index.html">Accueil</a>
+                <a href="film.html">Films</a>
+                <a href="panier.html">Panier</a>
+                <a href="profil.html">Profil</a>
+                <a href="login.php">Connexion</a>
+            </ul>
+
+            <!-- Bouton toggle (menu burger pour mobile) -->
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===================== CONTENU PRINCIPAL ===================== -->
+    <main class="main-content">
+      <section class="hero-section">
+    <div class="hero-content">
+        <h2>Découvrez Notre Collection de Films</h2>
+        <p>Des milliers de films pour tous les goûts et tous les âges</p>
+
+    </div>
+</section>  
+       
+
+        <!-- ********** Section Filtres ********** -->
+        <section class="filters-section">
+            <div class="container">
+                <div class="filters">
+                    
+                    <!-- Filtre par genre -->
+                    <div class="filter-group">
+                        <label for="genreFilter">Genre:</label>
+                        <select id="genreFilter">
+<!--Option qui permet de tout selectionner--> <option value="">Tous les genres</option>
+                            <option value="action">Action</option>
+                            <option value="animation">Animation</option>
+                        <!--    <option value="comedie">Comédie</option>   -->
+                        <!--   <option value="crime">Crime</option>   --> 
+                            <option value="drame">Drame</option>
+                            <option value="horreur">Horreur</option>
+                        <!--    <option value="musical">Musical</option>   -->
+                            <option value="romance">Romance</option>
+                            <option value="science-fiction">Science-Fiction</option>
+                            <option value="thriller">Thriller</option> 
+                        </select>
+                    </div>
+
+                    <!-- Filtre par tranche d’âge -->
+                    <div class="filter-group">
+                        <label for="ageFilter">Âge:</label>
+                        <select id="ageFilter">
+                            <option value="">Tous les âges</option>
+                            <option value="1">Tout public</option>
+                            <option value="12">12+</option>
+                            <option value="16">16+</option>
+                            <option value="18">18+</option>
+                        </select>
+                    </div>
+
+                    <!-- Filtre par prix -->
+                    <div class="filter-group">
+                        <label for="priceFilter">Prix:</label>
+                        <select id="priceFilter">
+                            <option value="">Tous les prix</option>
+                            <option value="0-5">0€ - 5€</option>
+                            <option value="5-10">5€ - 10€</option>
+                            <option value="10-15">10€ - 15€</option>
+                            <option value="15+">15€+</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ********** Section Films (grille d'affichage) ********** -->
+        <section class="films-section">
+            <div class="container">
+                <!-- Grille où les films seront injectés dynamiquement par JS -->
+                <div class="films-grid" id="filmsGrid">
+                    <!-- Film cards seront générées ici -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ********** Section Pagination ********** -->
+        <section class="pagination-section">
+            <div class="container">
+                <div class="pagination">
+                    <!-- Bouton page précédente -->
+                    <button class="page-btn" data-page="prev"><i class="fas fa-chevron-left"></i></button>
+                    <!-- Boutons numérotés des pages -->
+                    <button class="page-btn active" data-page="1">1</button>
+                    <button class="page-btn" data-page="2">2</button>
+                    <button class="page-btn" data-page="3">3</button>
+                    <!-- Bouton page suivante -->
+                    <button class="page-btn" data-page="next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                
+                <!-- Section infos site -->
+                <div class="footer-section">
+                    <h3>FILMOGRAM</h3>
+                    <p>Votre plateforme de films préférée</p>
+                </div>
+
+                <!-- Section liens rapides -->
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul class="nav-menu">
+                <!-- Lien vers la page d'accueil -->
+                <li><a href="index.html">Accueil</a></li>
+                <!-- Lien vers la page des films (actif sur cette page) -->
+                <li><a href="/Vue/film.html" class="active">Films</a></li>
+                <!-- Lien vers le panier -->
+                <li><a href="/Vue/panier.html">Panier</a></li>
+                <!-- Lien vers la page de profil -->
+                <li><a href="/Vue/profil.html">Profil</a></li>
+            </ul>
+                </div>
+
+                <!-- Section réseaux sociaux -->
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+             <!-- ********** Section Hero (bannière principale) ********** -->
+        <!--<section class="hero-section"> -->
+            <div class="hero-content">
+                
+                <!-- Barre de recherche de films -->
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher un film..." id="searchInput">
+                    <button type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
+            <!-- Texte bas du footer -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 FILMOGRAM. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPT JS ===================== -->
+    <!-- Fichier JavaScript pour gérer l'affichage des films -->
+    <script src="../js/films.js"></script>
+</body>
+</html>
