@@ -481,13 +481,15 @@ if (!isset($_SESSION['iduser'])) {
             }
 
             addToCart(film) {
-                const existingItem = this.cart.find(item => item.id === film.id);
+                // ✅ Normalisation de l'ID en nombre pour garantir la cohérence
+                const filmId = Number(film.id);
+                const existingItem = this.cart.find(item => Number(item.id) === filmId);
                 
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
                     this.cart.push({
-                        id: film.id,
+                        id: filmId, // ✅ Stocker l'ID comme nombre
                         title: film.title,
                         genre: film.genre,
                         price: film.price,
@@ -502,25 +504,32 @@ if (!isset($_SESSION['iduser'])) {
             }
 
             removeFromCart(filmId) {
-                const itemToRemove = this.cart.find(item => item.id === filmId);
+                // ✅ Conversion en nombre pour garantir la comparaison correcte
+                const idToRemove = Number(filmId);
+                const itemToRemove = this.cart.find(item => Number(item.id) === idToRemove);
                 
                 if (itemToRemove) {
                     if (confirm(`Êtes-vous sûr de vouloir supprimer "${itemToRemove.title}" de votre panier ?`)) {
-                        this.cart = this.cart.filter(item => item.id !== filmId);
+                        this.cart = this.cart.filter(item => Number(item.id) !== idToRemove);
                         this.saveCart();
                         this.renderCart();
                         this.showNotification(`"${itemToRemove.title}" a été retiré du panier`, 'success');
                     }
+                } else {
+                    // ✅ Gestion d'erreur si l'élément n'est pas trouvé
+                    this.showNotification('Erreur : élément introuvable dans le panier', 'error');
                 }
             }
 
             updateQuantity(filmId, newQuantity) {
-                const item = this.cart.find(item => item.id === filmId);
+                // ✅ Conversion en nombre pour garantir la comparaison correcte
+                const idToUpdate = Number(filmId);
+                const item = this.cart.find(item => Number(item.id) === idToUpdate);
                 if (item) {
                     if (newQuantity <= 0) {
                         this.removeFromCart(filmId);
                     } else {
-                        item.quantity = newQuantity;
+                        item.quantity = Number(newQuantity);
                         this.saveCart();
                         this.renderCart();
                     }
