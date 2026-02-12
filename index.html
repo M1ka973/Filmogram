@@ -21,13 +21,13 @@
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-            <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
+             <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
             <ul class="nav-menu">
-                <a href="index.html">Accueil</a>
-                <a href="Vue/film.html">Films</a>
-                <a href="Vue/panier.html">Panier</a>
-                <a href="Vue/profil.html">Profil</a>
-                <span id="nav-connexion"><a href="login.php">Connexion</a></span>
+                <li><a href="index.html">Accueil</a></li>
+                <li id="nav-films"><a href="Vue/film.html">Films</a></li>
+                <li id="nav-panier" style="display: none;"><a href="Vue/panier.html">Panier</a></li>
+                <li id="nav-profil" style="display: none;"><a href="Vue/profil.html">Profil</a></li>
+                <li id="nav-connexion"><a href="login.php">Connexion</a></li>
             </ul>
 
             <!-- Bouton "menu burger" pour mobiles -->
@@ -115,9 +115,17 @@ Support client réactif
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
                     if (data.logged_in) {
-                        document.getElementById('nav-panier').style.display = '';
-                        document.getElementById('nav-profil').style.display = '';
-                        document.getElementById('nav-connexion').style.display = 'none';
+                        var navPanier = document.getElementById('nav-panier');
+                        var navProfil = document.getElementById('nav-profil');
+                        var navConnexion = document.getElementById('nav-connexion');
+
+                        if (navPanier) navPanier.style.display = '';
+                        if (navProfil) navProfil.style.display = '';
+
+                        // Si l'utilisateur est connecté, on transforme le lien "Connexion" en "Déconnexion"
+                        if (navConnexion) {
+                            navConnexion.innerHTML = '<a href="logout.php">Déconnexion</a>';
+                        }
                     }
                 })
                 .catch(function() {});
@@ -147,6 +155,8 @@ Support client réactif
                 <h4>Liens rapides</h4>
                 <ul>
                     <li><a href="Vue/film.html">Films</a></li>
+                    <li><a href="Vue/panier.html"></a></li> 
+                    <li><a href="Vue/profil.html"></a></li>                    
                     <li><a href="index.html">Nouveautés</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
