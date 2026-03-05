@@ -57,7 +57,7 @@ INSERT INTO film (nom, age, genre, prix)
 VALUES
 ('Inception', 12, 'Science-fiction', 14.99),
 ('The Dark Knight', 12, 'Action', 12.99),
-('Interstellar', 10, 'Science-fiction', 15.99),
+('Interstellar', 10, 'Science-fiction', 1 5.99),
 ('Le Roi Lion', 0, 'Animation', 9.99),
 ('Gladiator', 16, 'Historique', 11.99),
 ('Titanic', 10, 'Romance', 10.99),

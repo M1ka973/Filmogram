@@ -9,9 +9,12 @@ const films = [
         id: 1,
         title: "Le Roi Lion",
         genre: "Animation",
-        age: 1, // 1 signifie "tout public"
+        age: 1, 
         price: 12.99,
-        image: "🦁"
+        image: "🦁",
+        // Synopsis et image très simples, faciles à modifier
+        synopsis: "Un jeune lion doit accepter son destin de roi après la mort tragique de son père.",
+        poster: "../img/roi_lion.jpg"
     },
     {
         id: 2,
@@ -19,7 +22,9 @@ const films = [
         genre: "Animation",
         age: 1,
         price: 11.99,
-        image: "🤖"
+        image: "🤖",
+        synopsis: "Les jouets d'un petit garçon prennent vie et vivent des aventures inattendues.",
+        poster: "../img/tout_public_film.jpg"
     },
     {
         id: 3,
@@ -27,7 +32,9 @@ const films = [
         genre: "Animation",
         age: 1,
         price: 13.99,
-        image: "❄️"
+        image: "❄️",
+        synopsis: "Deux soeurs se retrouvent grâce à la magie de la glace et de l'amour fraternel.",
+        poster: "../img/tout_public_film.jpg"
     },
     {
         id: 4,
@@ -35,7 +42,9 @@ const films = [
         genre: "Animation",
         age: 1,
         price: 12.99,
-        image: "💀"
+        image: "💀",
+        synopsis: "Un garçon passionné de musique explore le monde des morts pour comprendre son passé.",
+        poster: "../img/tout_public_film.jpg"
     },
     {
         id: 5,
@@ -43,7 +52,9 @@ const films = [
         genre: "Animation",
         age: 1,
         price: 14.99,
-        image: "🕷️"
+        image: "🕷️",
+        synopsis: "Plusieurs versions de Spider-Man se rencontrent dans un univers animé explosif.",
+        poster: "../img/tout_public_film.jpg"
     },
     {
         id: 6,
@@ -51,7 +62,9 @@ const films = [
         genre: "Comédie",
         age: 1,
         price: 10.99,
-        image: "💛"
+        image: "💛",
+        synopsis: "De petits êtres jaunes cherchent le méchant parfait à servir.",
+        poster: "../img/tout_public_film.jpg"
     },
     {
         id: 7,
@@ -59,7 +72,9 @@ const films = [
         genre: "Comédie",
         age: 1,
         price: 9.99,
-        image: "🧸"
+        image: "🧸",
+        synopsis: "Un ours venu du Pérou découvre la vie à Londres dans une famille accueillante.",
+        poster: "../img/tout_public_film.jpg"
     },
     {
         id: 8,
@@ -67,7 +82,9 @@ const films = [
         genre: "Musical",
         age: 1,
         price: 11.99,
-        image: "☂️"
+        image: "☂️",
+        synopsis: "Une nounou magique transforme le quotidien d'une famille avec chansons et fantaisie.",
+        poster: "../img/tout_public_film.jpg"
     },
     
     // Films 12+ (age = 12)
@@ -77,7 +94,9 @@ const films = [
         genre: "Action",
         age: 12,
         price: 15.99,
-        image: "🦸‍♂️"
+        image: "🦸‍♂️",
+        synopsis: "Les Avengers se réunissent une dernière fois pour inverser les effets du claquement de Thanos.",
+        poster: "../img/twelve_film.jpg"
     },
     {
         id: 10,
@@ -85,7 +104,9 @@ const films = [
         genre: "Romance",
         age: 12,
         price: 11.99,
-        image: "🎭"
+        image: "🎭",
+        synopsis: "Une actrice et un musicien vivent une histoire d'amour rythmée par leurs rêves à Hollywood.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 11,
@@ -93,7 +114,9 @@ const films = [
         genre: "Science-Fiction",
         age: 12,
         price: 14.99,
-        image: "🚀"
+        image: "🚀",
+        synopsis: "Des astronautes voyagent à travers un trou de ver pour trouver une nouvelle planète habitable.",
+        poster: "../img/fantastic.jpg"
     },
     {
         id: 12,
@@ -101,7 +124,9 @@ const films = [
         genre: "Thriller",
         age: 12,
         price: 13.99,
-        image: "🌀"
+        image: "🌀",
+        synopsis: "Un voleur d'idées infiltre les rêves pour implanter un souvenir dans l'esprit d'un homme.",
+        poster: "../img/fantastic.jpg"
     },
     {
         id: 13,
@@ -109,7 +134,9 @@ const films = [
         genre: "Action",
         age: 12,
         price: 16.99,
-        image: "🐾"
+        image: "🐾",
+        synopsis: "Le roi du Wakanda protège son royaume et son héritage contre de nouvelles menaces.",
+        poster: "../img/hero_backgrd_001.jpg"
     },
     {
         id: 14,
@@ -117,7 +144,9 @@ const films = [
         genre: "Action",
         age: 12,
         price: 15.99,
-        image: "🛡️"
+        image: "🛡️",
+        synopsis: "Une guerrière amazone quitte son île pour mettre fin à une grande guerre.",
+        poster: "../img/hero_backgrd_001.jpg"
     },
     {
         id: 15,
@@ -125,7 +154,9 @@ const films = [
         genre: "Science-Fiction",
         age: 12,
         price: 17.99,
-        image: "🦕"
+        image: "🦕",
+        synopsis: "Un parc de dinosaures renaît, mais une créature génétiquement modifiée s'échappe.",
+        poster: "../img/fantastic.jpg"
     },
     {
         id: 16,
@@ -133,7 +164,9 @@ const films = [
         genre: "Musical",
         age: 12,
         price: 12.99,
-        image: "🎪"
+        image: "🎪",
+        synopsis: "L'ascension d'un homme qui crée un spectacle unique avec des artistes marginaux.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 17,
@@ -141,7 +174,9 @@ const films = [
         genre: "Science-Fiction",
         age: 12,
         price: 14.99,
-        image: "🎮"
+        image: "🎮",
+        synopsis: "Dans un monde virtuel géant, un joueur cherche un secret caché par le créateur du jeu.",
+        poster: "../img/fantastic.jpg"
     },
     {
         id: 18,
@@ -149,7 +184,9 @@ const films = [
         genre: "Science-Fiction",
         age: 12,
         price: 13.99,
-        image: "🚀"
+        image: "🚀",
+        synopsis: "Un astronaute abandonné sur Mars essaie de survivre en attendant un sauvetage.",
+        poster: "../img/fantastic.jpg"
     },
     
     // Films 16+ (age = 16)
@@ -159,7 +196,9 @@ const films = [
         genre: "Horreur",
         age: 16,
         price: 13.99,
-        image: "😱"
+        image: "😱",
+        synopsis: "Une visite chez les beaux-parents tourne au cauchemar pour un jeune homme.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 20,
@@ -167,7 +206,9 @@ const films = [
         genre: "Comédie",
         age: 16,
         price: 9.99,
-        image: "😂"
+        image: "😂",
+        synopsis: "Deux lycéens vivent une soirée complètement déjantée avant la fin de leurs études.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 21,
@@ -175,7 +216,9 @@ const films = [
         genre: "Action",
         age: 16,
         price: 16.99,
-        image: "💀"
+        image: "💀",
+        synopsis: "Un anti-héros bavard cherche à se venger après une expérience qui l'a transformé.",
+        poster: "../img/hero_backgrd_001.jpg"
     },
     {
         id: 22,
@@ -183,7 +226,9 @@ const films = [
         genre: "Comédie",
         age: 16,
         price: 11.99,
-        image: "🍺"
+        image: "🍺",
+        synopsis: "Après une nuit à Las Vegas, un groupe d'amis tente de reconstituer ce qui s'est passé.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 23,
@@ -191,7 +236,9 @@ const films = [
         genre: "Comédie",
         age: 16,
         price: 10.99,
-        image: "🥧"
+        image: "🥧",
+        synopsis: "Des lycéens décident de tout faire pour perdre leur virginité avant la fin de l'année.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 24,
@@ -199,7 +246,9 @@ const films = [
         genre: "Horreur",
         age: 16,
         price: 14.99,
-        image: "👻"
+        image: "👻",
+        synopsis: "Un couple d'enquêteurs du paranormal affronte une présence maléfique dans une maison.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 25,
@@ -207,7 +256,9 @@ const films = [
         genre: "Horreur",
         age: 16,
         price: 13.99,
-        image: "👹"
+        image: "👹",
+        synopsis: "Un garçon plongé dans le coma devient la cible d'esprits qui veulent posséder son corps.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 26,
@@ -215,7 +266,9 @@ const films = [
         genre: "Horreur",
         age: 16,
         price: 12.99,
-        image: "🔪"
+        image: "🔪",
+        synopsis: "Une nuit par an, tous les crimes sont autorisés, et une famille doit survivre.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 27,
@@ -223,7 +276,9 @@ const films = [
         genre: "Comédie",
         age: 16,
         price: 11.99,
-        image: "👮"
+        image: "👮",
+        synopsis: "Deux policiers infiltrés retournent au lycée pour démanteler un trafic de drogue.",
+        poster: "../img/foreign_film.jpg"
     },
     
     // Films 18+ (age = 18)
@@ -233,7 +288,9 @@ const films = [
         genre: "Drame",
         age: 18,
         price: 16.99,
-        image: "🎬"
+        image: "🎬",
+        synopsis: "La saga d'une puissante famille mafieuse et de son héritier réticent.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 29,
@@ -241,7 +298,9 @@ const films = [
         genre: "Crime",
         age: 18,
         price: 15.99,
-        image: "💉"
+        image: "💉",
+        synopsis: "Des histoires criminelles entremêlées, pleines de dialogues cultes et de violence stylisée.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 30,
@@ -249,7 +308,9 @@ const films = [
         genre: "Drame",
         age: 18,
         price: 14.99,
-        image: "👊"
+        image: "👊",
+        synopsis: "Un employé de bureau fonde un club de combat clandestin qui lui échappe rapidement.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 31,
@@ -257,7 +318,9 @@ const films = [
         genre: "Drame",
         age: 18,
         price: 17.99,
-        image: "💰"
+        image: "💰",
+        synopsis: "L'ascension et la chute d'un courtier en bourse adepte des excès.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 32,
@@ -265,7 +328,9 @@ const films = [
         genre: "Crime",
         age: 18,
         price: 16.99,
-        image: "🔫"
+        image: "🔫",
+        synopsis: "L'histoire vraie d'un gangster qui gravit les échelons de la mafia.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 33,
@@ -273,7 +338,9 @@ const films = [
         genre: "Crime",
         age: 18,
         price: 15.99,
-        image: "💊"
+        image: "💊",
+        synopsis: "Un immigré cubain devient un puissant baron de la drogue à Miami.",
+        poster: "../img/foreign_film.jpg"
     },
     {
         id: 34,
@@ -281,7 +348,9 @@ const films = [
         genre: "Drame",
         age: 18,
         price: 14.99,
-        image: "🚕"
+        image: "🚕",
+        synopsis: "Un vétéran solitaire devient chauffeur de taxi et sombre dans la paranoïa.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 35,
@@ -289,7 +358,9 @@ const films = [
         genre: "Thriller",
         age: 18,
         price: 13.99,
-        image: "🪓"
+        image: "🪓",
+        synopsis: "Un riche trader mène une double vie de tueur en série.",
+        poster: "../img/drama.jpg"
     },
     {
         id: 36,
@@ -297,7 +368,9 @@ const films = [
         genre: "Thriller",
         age: 18,
         price: 15.99,
-        image: "🦋"
+        image: "🦋",
+        synopsis: "Une jeune agent du FBI consulte un tueur brillant pour arrêter un autre criminel.",
+        poster: "../img/drama.jpg"
     }
 ];
 
@@ -415,10 +488,27 @@ function createFilmCard(film) {
             <button class="add-to-cart" onclick="addToCart(${film.id})">
                 <i class="fas fa-shopping-cart"></i> Ajouter au panier
             </button>
+            <button class="details-btn" onclick="toggleFilmDetails(${film.id})">
+                <i class="fas fa-info-circle"></i> Voir le synopsis
+            </button>
+            <div class="film-extra" id="film-extra-${film.id}">
+                <div class="film-extra-content">
+                    <img class="film-poster" src="${film.poster || '../img/tout_public_film.jpg'}" alt="Affiche de ${film.title}">
+                    <p class="film-synopsis">${film.synopsis || 'Synopsis à venir.'}</p>
+                </div>
+            </div>
         </div>
     `;
 
     return card;
+}
+
+// Ouverture / fermeture très simple de la fenêtre déroulante
+function toggleFilmDetails(filmId) {
+    const extra = document.getElementById(`film-extra-${filmId}`);
+    if (!extra) return;
+    const isOpen = extra.classList.contains('open');
+    extra.classList.toggle('open', !isOpen);
 }
 
 // ===============================
@@ -665,6 +755,7 @@ function showNotification(message, type = 'info') {
 // ===============================
 // Animation CSS + style additionnel
 // ===============================
+
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -695,6 +786,66 @@ style.textContent = `
     .page-btn.disabled {
         opacity: 0.5;
         cursor: not-allowed;
+    }
+
+    /* Zone déroulante sous chaque film (synopsis + image) */
+    .film-extra {
+        margin-top: 0.8rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .film-extra.open {
+        max-height: 400px; /* suffisant pour l'image + texte */
+    }
+
+    .synopsis{
+    margin-top : 10px;
+    color : black;
+    font-size : 16px;
+    }
+
+
+    .film-extra-content {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        background:rgb(86, 21, 21);
+        padding: 0.8rem;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .film-poster {
+        width: 100px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .film-synopsis {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .details-btn {
+        margin-top: 0.5rem;
+        background: #667eea;
+        color: #fff;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .details-btn:hover {
+        background: #4c5bd5;
     }
 `;
 document.head.appendChild(style);

@@ -63,12 +63,8 @@
                     <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe">
                 </div>
                 
-                <!-- 
-                    BOUTON DE SOUMISSION
-                    L'attribut name="Connexion" permet d'identifier la soumission côté serveur
-                    Déclenche l'envoi du formulaire vers login.php
-                -->
-                <button type="submit" name="Connexion">Connexion</button>
+                <button type="submit" name="Connexion">Connexion</button> 
+                <!--//envoi du formulaire-->
                 
                 <!-- 
                     LIEN VERS L'INSCRIPTION
@@ -103,14 +99,7 @@
         margin: 0;
     }
 
-    /* 
-        ========================================
-        CONTENEUR PRINCIPAL DE CONNEXION
-        ========================================
-        Crée une carte avec deux colonnes (illustration + formulaire)
-        Utilise flexbox pour diviser l'espace équitablement
-        Ajoute ombre et bordures arrondies pour un effet moderne
-    */
+
     .login-container {
         display: flex;
         background: white;
@@ -121,14 +110,6 @@
         max-width: 90%;    /* Responsive : s'adapte aux petits écrans */
     }
 
-    /* 
-        ========================================
-        SECTION ILLUSTRATION
-        ========================================
-        Partie gauche avec fond en dégradé violet/bleu
-        Centre l'image à l'intérieur avec flexbox
-        Prend 50% de l'espace grâce à flex: 1
-    */
     .illustration {
         background: linear-gradient(135deg, #6a11cb, #2575fc);  /* Dégradé diagonal */
         display: flex;
@@ -149,14 +130,7 @@
         height: auto;
     }
 
-    /* 
-        ========================================
-        SECTION FORMULAIRE
-        ========================================
-        Partie droite contenant tous les éléments du formulaire
-        Prend également 50% de l'espace (flex: 1)
-        Hauteur fixe pour maintenir la cohérence visuelle
-    */
+
     .login-form {
         flex: 1;
         padding: 40px;
@@ -174,34 +148,19 @@
         color: #333;
     }
 
-    /* 
-        ========================================
-        GROUPES DE CHAMPS (EMAIL ET MOT DE PASSE)
-        ========================================
-        Conteneur pour chaque paire label/input
-        Alignement à gauche pour une meilleure lisibilité
-    */
     .input-group {
         text-align: left;
         margin-bottom: 15px;
     }
 
-    /* 
-        LABELS DES CHAMPS
-        Affichage en bloc pour occuper toute la largeur
-        Gras pour améliorer la hiérarchie visuelle
-    */
+
     .input-group label {
         display: block;
         font-weight: bold;
         margin-bottom: 5px;
     }
 
-    /* 
-        CHAMPS DE SAISIE (INPUT)
-        Style uniforme pour tous les champs texte et password
-        Bordures arrondies et espacement interne confortable
-    */
+
     .input-group input {
         width: 100%;
         padding: 10px;
@@ -210,30 +169,18 @@
         font-size: 16px;
     }
 
-    /* 
-        GROUPE SPÉCIFIQUE POUR LE MOT DE PASSE
-        Position relative pour permettre l'ajout d'éléments en position absolue
-        (comme un bouton pour afficher/masquer le mot de passe)
-    */
+  
     .password-group {
         position: relative;
     }
 
-    /* 
-        BOUTON TOGGLE PASSWORD (NON UTILISÉ ACTUELLEMENT)
-        Prévu pour afficher un icône permettant de voir le mot de passe
-        Positionné à droite du champ password
-    */
+
     .toggle-password {
         position: absolute;
         right: 10px;
     }
 
-    /* 
-        OPTIONS SUPPLÉMENTAIRES (NON UTILISÉES ACTUELLEMENT)
-        Style prévu pour des options comme "Se souvenir de moi" ou "Mot de passe oublié"
-        Disposition en ligne avec espacement entre les éléments
-    */
+
     .options {
         display: flex;
         justify-content: space-between;
@@ -241,14 +188,7 @@
         margin-bottom: 20px;
     }
 
-    /* 
-        ========================================
-        BOUTON DE CONNEXION
-        ========================================
-        Style principal du bouton de soumission
-        Fond sombre avec transition douce au survol
-        Occupe toute la largeur pour un meilleur impact visuel
-    */
+
     button {
         width: 100%;
         padding: 10px;
