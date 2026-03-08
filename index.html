@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Films | FILMOGRAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -25,8 +28,8 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Accueil</a></li>
                 <li id="nav-films"><a href="Vue/film.html">Films</a></li>
-                <li id="nav-panier"><a href="Vue/panier.html">Panier</a></li>
-                <li id="nav-profil"><a href="Vue/profil.html">Profil</a></li>
+                <li id="nav-panier" style="display:none"><a href="Vue/panier.php">Panier</a></li>
+                <li id="nav-profil" style="display:none"><a href="Vue/profil.html">Profil</a></li>
                 <li id="nav-connexion"><a href="login.php">Connexion</a></li>
             </ul>
 
@@ -40,145 +43,115 @@
     </header>
 
      <main class="main-content">
-        
-        <!-- ********** Section Hero (bannière principale) ********** -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h2>Bienvenue chez FILMOGRAM</h2>
-                
+        <section class="hero-section hero-dynamic">
+            <div class="hero-content reveal">
+                <h2>Bienvenue chez <span class="brand-accent">FILMOGRAM</span></h2>
+                <p class="hero-subtitle">Votre destination cinéma à portée de clic.</p>
+                <div class="hero-actions">
+                    <a href="Vue/film.html" class="btn btn-primary">Découvrir le catalogue</a>
+                    <a href="#nouveautes" class="btn btn-ghost">Voir les nouveautés</a>
+                </div>
             </div>
         </section>
 
-    <section class="filters-section">
-        <div class="container">
-                <p>🎬 Filmogram – Votre destination cinéma à portée de clic
-
-Filmogram est une plateforme en ligne spécialisée dans l’achat de films numériques, offrant une vaste sélection de titres pour tous les goûts et toutes les envies.</p>
-
-<p>
-📚 Genres disponibles
-Action : Des blockbusters explosifs aux thrillers haletants.
-Comédie : De l’humour léger aux comédies satiriques.
-Drame : Des récits poignants et profonds qui marquent les esprits.
-Horreur : Frissons garantis avec des classiques et des nouveautés terrifiantes.
-Science-fiction : Des mondes futuristes aux voyages interstellaires.
-Romance : Des histoires d’amour touchantes et passionnées.
-Thriller : Suspense, mystère et rebondissements à chaque instant.
-</p>
-
-<p>
-🛒 Fonctionnalités clés
-Achat à l’unité : Achetez vos Films
-Qualité HD et 4K : Profitez d’une image et d’un son exceptionnels.
-Classements et recommandations : Découvrez les tendances et les coups de cœur du moment.
-Fiches détaillées : Synopsis, casting, bande-annonce et avis des utilisateurs.
-Interface intuitive : Navigation fluide et rapide sur tous vos appareils.
-</p>
-
-<p>
-🎁 Avantages
-Accès immédiat après achat
-Offres spéciales et promotions régulières
-Bibliothèque personnelle sécurisée
-Support client réactif
-</p>
-
-</section>
-</div>
-
-<div class="carousel">
-<img class ="card" src = "img/tout_public_film.jpg" alt = "carousel">
-<img class ="card" src = "img/twelve_film.jpg" alt = "carousel">
-<img class ="card" src = "img/fantastic.jpg" alt = "carousel">
-<img class ="card" src = "img/drama.jpg" alt = "carousel">
-<img class ="card" src = "img/foreign_film.jpg" alt = "carousel">
-</div>
-
-<!--SECTION 2 TEST-->
-<section class="hero-section">
-            <div class="hero-content">
-                <div class="container">
-                <h2>Une Large Gamme de Film</h2>  
-        </div>
-    </div>
-</section>
-
-<section class="button">
-   <center><a href="Vue/film.html" class="btn">Découvrez les Films</a></center>
-</section>
-
-
-<script src="css/style.css"></script>
-    <script>
-        (function() {
-            fetch('check_session.php', { credentials: 'include' })
-                .then(function(r) { return r.json(); })
-                .then(function(data) {
-                    if (data.logged_in) {
-                        var navPanier = document.getElementById('nav-panier');
-                        var navProfil = document.getElementById('nav-profil');
-                        var navConnexion = document.getElementById('nav-connexion');
-
-                        if (navPanier) navPanier.style.display = '';
-                        if (navProfil) navProfil.style.display = '';
-
-                        // Si l'utilisateur est connecté, on transforme le lien "Connexion" en "Déconnexion"
-                        if (navConnexion) {
-                            navConnexion.innerHTML = '<a href="logout.php">Déconnexion</a>';
-                        }
-                    }
-                })
-                .catch(function() {});
-        })();
-    </script>
-</body>
-
-
-
-
-
-
-
-<!-- ===================== FOOTER ===================== -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            
-            <!-- Bloc logo + slogan -->
-            <div class="footer-section">
-                <h3>FILMOGRAM</h3>
-                <p>Votre plateforme de films préférée</p>
-            </div>
-
-            <!-- Bloc liens rapides -->
-            <div class="footer-section">
-                <h4>Liens rapides</h4>
-                <ul>
-                    <li><a href="Vue/film.html">Films</a></li>
-                    <li><a href="Vue/panier.html"></a></li> 
-                    <li><a href="Vue/profil.html"></a></li>                    
-                    <li><a href="index.html">Nouveautés</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-
-            <!-- Bloc réseaux sociaux -->
-            <div class="footer-section">
-                <h4>Suivez-nous</h4>
-                <div class="social-links">
-                    <!-- Icônes cliquables vers réseaux sociaux -->
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+        <section class="filters-section reveal">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Accès immédiat</h3>
+                        <p>Après achat, votre film est disponible instantanément.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                        <h3>Pour tous les goûts</h3>
+                        <p>Action, comédie, drame, horreur, SF, romance, thriller.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
+                        <h3>Compte & bibliothèque</h3>
+                        <p>Vos achats et infos sont centralisés dans votre profil.</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Texte bas du footer -->
-        <div class="footer-bottom">
-            <p>&copy; 2024 FILMOGRAM. Tous droits réservés.</p>
+        <section class="carousel-section" id="nouveautes">
+            <div class="container reveal">
+                <div class="section-head">
+                    <h2>Nouveautés & coups de cœur</h2>
+                    <p>Faites défiler pour parcourir une sélection rapide.</p>
+                </div>
+            </div>
+            <div class="carousel reveal" data-carousel>
+                <div class="poster-card poster-1"><span>Inception</span></div>
+                <div class="poster-card poster-2"><span>Interstellar</span></div>
+                <div class="poster-card poster-3"><span>Avengers</span></div>
+                <div class="poster-card poster-4"><span>Frozen</span></div>
+                <div class="poster-card poster-5"><span>Pulp Fiction</span></div>
+                <div class="poster-card poster-6"><span>Deadpool</span></div>
+            </div>
+        </section>
+
+        <section class="cta-section reveal">
+            <div class="container">
+                <div class="cta-card">
+                    <div>
+                        <h2>Une large gamme de films</h2>
+                        <p>Filtrez par genre, âge et prix, puis ajoutez vos favoris au panier.</p>
+                    </div>
+                    <div class="cta-actions">
+                        <a href="Vue/film.html" class="btn btn-primary">Découvrir les films</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FILMOGRAM</h3>
+                    <p>Votre plateforme de films préférée</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="Vue/film.html">Films</a></li>
+                        <li><a href="Vue/panier.php">Panier</a></li>
+                        <li><a href="Vue/profil.html">Profil</a></li>
+                        <li><a href="#nouveautes">Nouveautés</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 FILMOGRAM. Tous droits réservés.</p>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
+
+    <script src="js/site.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
 </html>
 

@@ -8,11 +8,11 @@
     <!-- Titre de la page affiché dans l'onglet -->
     <title>Profil | FILMOGRAM</title>
     <!-- Lien vers la feuille de style CSS personnalisée -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <!-- Lien vers la librairie Font Awesome (icônes) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body data-base-path="../">
 
     <!-- Vérification de la session : redirection si non connecté -->
     <script>
@@ -44,11 +44,11 @@
 
              <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
             <ul class="nav-menu">
-                <a href="../index.html">Accueil</a>
-                <a href="film.html">Films</a>
-                <a href="panier.html">Panier</a>
-                <a href="profil.html">Profil</a>
-                <span id="nav-connexion"><a href="logout.php">Connexion</a></span> <!-- à Implémenter !-->
+                <li><a href="../index.html">Accueil</a></li>
+                <li id="nav-films"><a href="film.html">Films</a></li>
+                <li id="nav-panier"><a href="panier.php">Panier</a></li>
+                <li id="nav-profil"><a href="profil.html" class="active">Profil</a></li>
+                <li id="nav-connexion"><a href="../logout.php">Déconnexion</a></li>
             </ul>
 
 
@@ -118,6 +118,14 @@
                                     <label><i class="fas fa-map-marker-alt"></i> Adresse :</label>
                                     <span id="display-address">-</span>
                                 </div>
+
+                                <div class="info-item">
+                                    <label><i class="fas fa-calendar-alt"></i> Date de naissance :</label>
+                                    <span id="display-birthdate">-</span>
+                                    <button type="button" class="action-btn secondary" style="margin-top:8px" onclick="toggleEditBirthdate()">
+                                        <i class="fas fa-edit"></i> Modifier
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Formulaire très simple pour modifier le profil -->
@@ -175,21 +183,17 @@
                             </div>
                         </div>
 
-                        <!-- Statistiques du compte -->
-                        <div class="profile-stats">
-                            <h4><i class="fas fa-chart-bar"></i> Statistiques</h4>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <div class="stat-number" id="films-purchased">12</div>
-                                    <div class="stat-label">Films achetés</div>
+                        
+                        <div class="profile-details" style="margin-top: 1rem;">
+                            <h4><i class="fas fa-chart-line"></i> Statistiques</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label><i class="fas fa-shopping-cart"></i> Articles au panier :</label>
+                                    <span id="stat-cart-items">0</span>
                                 </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="total-spent">€89.99</div>
-                                    <div class="stat-label">Total dépensé</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="favorite-genre">Action</div>
-                                    <div class="stat-label">Genre préféré</div>
+                                <div class="info-item">
+                                    <label><i class="fas fa-euro-sign"></i> Total panier :</label>
+                                    <span id="stat-cart-total">0,00 €</span>
                                 </div>
                             </div>
                         </div>
@@ -212,6 +216,51 @@
         </section>
     </main>
 
+    <!-- Modale changement de mot de passe -->
+    <div class="fg-modal" id="passwordModal" aria-hidden="true">
+        <div class="fg-modal__panel" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+            <h3 id="passwordModalTitle"><i class="fas fa-lock"></i> Changer le mot de passe</h3>
+            <form id="password-form">
+                <div class="form-group">
+                    <label for="current-password">Mot de passe actuel</label>
+                    <input type="password" id="current-password" autocomplete="current-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Nouveau mot de passe (min 8 caractères)</label>
+                    <input type="password" id="new-password" autocomplete="new-password" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password-confirm">Confirmer le nouveau mot de passe</label>
+                    <input type="password" id="new-password-confirm" autocomplete="new-password" minlength="8" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-btn"><i class="fas fa-save"></i> Valider</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('passwordModal')"><i class="fas fa-times"></i> Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modale suppression de compte -->
+    <div class="fg-modal" id="deleteModal" aria-hidden="true">
+        <div class="fg-modal__panel" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+            <h3 id="deleteModalTitle"><i class="fas fa-trash"></i> Supprimer le compte</h3>
+            <p style="color: rgba(255,255,255,0.85); margin-top: 0.5rem;">
+                Cette action est irréversible. Confirmez avec votre mot de passe.
+            </p>
+            <form id="delete-form" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label for="delete-password">Mot de passe</label>
+                    <input type="password" id="delete-password" autocomplete="current-password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-btn" style="background:#dc3545"><i class="fas fa-trash"></i> Supprimer</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('deleteModal')"><i class="fas fa-times"></i> Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ===================== FOOTER ===================== -->
     <footer class="footer">
         <div class="container">
@@ -228,7 +277,7 @@
                     <ul>
                         <li><a href="index.html">Accueil</a></li>
                         <li><a href="film.html">Films</a></li>
-                        <li><a href="panier.html">Panier</a></li>
+                        <li><a href="panier.php">Panier</a></li>
                         <li><a href="profil.html">Profil</a></li>
                     </ul>
                 </div>
@@ -252,11 +301,14 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/script.js"></script>
+    <script src="../js/site.js"></script>
     <script>
         // Charger les données du profil utilisateur au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
             loadUserProfile();
+            // nav/session géré par js/site.js (data-base-path)
+            loadBirthdate();
+            updateLocalStats();
         });
 
         // Fonction pour charger les données du profil utilisateur
@@ -301,8 +353,11 @@
             if (form.style.display === 'none') {
                 form.style.display = 'block';
                 // Pré-remplir le champ avec la date actuelle
-                const currentDate = display.textContent.split('/').reverse().join('-');
-                document.getElementById('new-birthdate').value = currentDate;
+                const current = display.textContent.trim();
+                if (current && current.includes('/')) {
+                    const currentDate = current.split('/').reverse().join('-');
+                    document.getElementById('new-birthdate').value = currentDate;
+                }
             } else {
                 form.style.display = 'none';
             }
@@ -323,6 +378,7 @@
                 
                 // Mettre à jour l'affichage
                 document.getElementById('display-birthdate').textContent = formattedDate;
+                localStorage.setItem('filmogram_birthdate', formattedDate);
                 
                 // Masquer le formulaire
                 document.getElementById('birthdate-edit-form').style.display = 'none';
@@ -330,6 +386,25 @@
                 // Afficher un message de succès
                 showNotification('Date de naissance mise à jour avec succès !', 'success');
             });
+        }
+
+        function loadBirthdate() {
+            const v = localStorage.getItem('filmogram_birthdate');
+            const el = document.getElementById('display-birthdate');
+            if (el) el.textContent = v || '-';
+        }
+
+        function updateLocalStats() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('filmogram_cart') || '[]');
+                const items = cart.reduce((t, it) => t + Number(it.quantity || 0), 0);
+                const total = cart.reduce((t, it) => t + (Number(it.price || 0) * Number(it.quantity || 0)), 0);
+
+                const itemsEl = document.getElementById('stat-cart-items');
+                const totalEl = document.getElementById('stat-cart-total');
+                if (itemsEl) itemsEl.textContent = String(items);
+                if (totalEl) totalEl.textContent = `${total.toFixed(2).replace('.', ',')} €`;
+            } catch (_) {}
         }
 
         // Fonctions d'actions du profil
@@ -406,13 +481,86 @@
         }
 
         function changePassword() {
-            showNotification('Fonctionnalité en cours de développement', 'info');
+            openModal('passwordModal');
         }
 
         function deleteAccount() {
-            if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
-                showNotification('Fonctionnalité en cours de développement', 'info');
-            }
+            openModal('deleteModal');
+        }
+
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (!m) return;
+            m.classList.add('open');
+            m.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (!m) return;
+            m.classList.remove('open');
+            m.setAttribute('aria-hidden', 'true');
+        }
+
+        // Changement mot de passe
+        const passwordForm = document.getElementById('password-form');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const cur = document.getElementById('current-password').value;
+                const next = document.getElementById('new-password').value;
+                const next2 = document.getElementById('new-password-confirm').value;
+
+                if (next !== next2) {
+                    showNotification('Les mots de passe ne correspondent pas', 'error');
+                    return;
+                }
+
+                fetch('../change_password.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ current_password: cur, new_password: next })
+                })
+                .then(r => r.json().then(j => ({ ok: r.ok, json: j })))
+                .then(({ ok, json }) => {
+                    if (!ok || (json && json.error)) {
+                        showNotification((json && json.error) ? json.error : 'Erreur lors du changement', 'error');
+                        return;
+                    }
+                    closeModal('passwordModal');
+                    passwordForm.reset();
+                    showNotification('Mot de passe mis à jour', 'success');
+                })
+                .catch(() => showNotification('Erreur lors du changement', 'error'));
+            });
+        }
+
+        // Suppression de compte
+        const deleteForm = document.getElementById('delete-form');
+        if (deleteForm) {
+            deleteForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const pwd = document.getElementById('delete-password').value;
+
+                fetch('../delete_account.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd })
+                })
+                .then(r => r.json().then(j => ({ ok: r.ok, json: j })))
+                .then(({ ok, json }) => {
+                    if (!ok || (json && json.error)) {
+                        showNotification((json && json.error) ? json.error : 'Erreur lors de la suppression', 'error');
+                        return;
+                    }
+                    showNotification('Compte supprimé. Redirection...', 'success');
+                    setTimeout(() => { window.location.href = '../index.html'; }, 1200);
+                })
+                .catch(() => showNotification('Erreur lors de la suppression', 'error'));
+            });
         }
 
         // Fonction pour afficher les notifications

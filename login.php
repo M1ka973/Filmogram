@@ -14,11 +14,7 @@ session_set_cookie_params([
 // Démarrer la session
 session_start();
 
-// Configuration de la base de données
-$host = 'localhost';
-$dbname = 'filmogram_dtb'; // Nom de votre base (à adapter selon votre BDD)
-$username = 'root'; // Par défaut sur XAMPP
-$password = ''; // Vide par défaut sur XAMPP
+require_once 'db_connect.php';
 
 // Message d'erreur
 $error_message = '';
@@ -38,10 +34,6 @@ if (isset($_POST['Connexion'])) {
         $error_message = "Veuillez remplir tous les champs.";
     } else {
         try {
-            // Connexion à la base de données avec PDO
-            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
             // Préparer la requête SQL (protection contre injection SQL)
             $stmt = $pdo->prepare("SELECT * FROM user WHERE email = :email");
             $stmt->bindParam(':email', $email);
@@ -50,8 +42,22 @@ if (isset($_POST['Connexion'])) {
             // Récupérer l'utilisateur
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            // Vérifier si l'utilisateur existe et que le mot de passe correspond (plain-text dans la BDD)
-            if ($user && $mdp === $user['password']) {
+            // Vérifier le mot de passe (hashé ou en clair, avec upgrade automatique)
+            $ok = false;
+            if ($user) {
+                $stored = (string)$user['password'];
+                $isHash = str_starts_with($stored, '$2y$') || str_starts_with($stored, '$argon2');
+                $ok = $isHash ? password_verify($mdp, $stored) : hash_equals($stored, $mdp);
+
+                // Upgrade: si ancien mot de passe en clair, on le remplace par un hash
+                if ($ok && !$isHash) {
+                    $hash = password_hash($mdp, PASSWORD_DEFAULT);
+                    $u = $pdo->prepare("UPDATE user SET password = :password WHERE iduser = :iduser");
+                    $u->execute([':password' => $hash, ':iduser' => (int)$user['iduser']]);
+                }
+            }
+
+            if ($user && $ok) {
                 // Connexion réussie
                 $_SESSION['iduser'] = $user['iduser'];
                 $_SESSION['email'] = $user['email'];

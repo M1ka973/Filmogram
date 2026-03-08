@@ -14,7 +14,7 @@ if (!isset($_SESSION['iduser'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier | FILMOGRAM</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
                         <!--SECTION CSS -->
@@ -337,6 +337,24 @@ if (!isset($_SESSION['iduser'])) {
 <body>
                         <!--FIN DE LA SECTION CSS -->
 
+    <!-- Vérification de la session : redirection si non connecté -->
+    <script>
+        (function() {
+            fetch('../check_session.php', { credentials: 'include' })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data.logged_in) {
+                        alert('Veuillez vous connecter');
+                        window.location.href = '../login.php?require_login=1';
+                    }
+                })
+                .catch(function() {
+                    alert('Veuillez vous connecter');
+                    window.location.href = '../login.php?require_login=1';
+                });
+        })();
+    </script>
+
     <!-- ===================== HEADER ===================== -->
     <header class="header">
         <nav class="navbar">
@@ -344,13 +362,12 @@ if (!isset($_SESSION['iduser'])) {
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-             <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
+             <!-- Menu de navigation -->
             <ul class="nav-menu">
-                <a href="index.html">Accueil</a>
-                <a href="../Vue/film.html">Films</a>
-                <a href="../Vue/panier.html">Panier</a>
-                <a href="../Vue/profil.html">Profil</a>
-                <a href="""></a>
+                <a href="../index.html">Accueil</a>
+                <a href="film.html">Films</a>
+                <a href="panier.php">Panier</a>
+                <a href="profil.html">Profil</a>
             </ul>
 
             <div class="nav-toggle">
@@ -392,7 +409,7 @@ if (!isset($_SESSION['iduser'])) {
                         <span id="total">0,00 €</span>
                     </div>
                     <button class="checkout-btn" id="checkoutBtn" disabled>
-                        <i href="paiement.html" class="fas fa-credit-card"></i> Procéder au paiement
+                        <i class="fas fa-credit-card"></i> Procéder au paiement
                     </button>
                 </div>
             </div>
@@ -438,30 +455,7 @@ if (!isset($_SESSION['iduser'])) {
     <!-- Notification -->
     <div class="notification" id="notification"></div>
 
-
-    
     <!-- ===================== SCRIPT JS ===================== -->
-
-    <!-- Vérification de la session : redirection si non connecté -->
-    <script>
-        (function() {
-            fetch('../check_session.php', { credentials: 'include' })
-                .then(function(r) { return r.json(); })
-                .then(function(data) {
-                    if (!data.logged_in) {
-                        alert('Veuillez vous connecter');
-                        window.location.href = '../login.php?require_login=1';
-                    }
-                })
-                .catch(function() {
-                    alert('Veuillez vous connecter');
-                    window.location.href = '../login.php?require_login=1';
-                });
-        })();
-    </script>
-
-
-
     <script>
         // Gestion du panier avec localStorage
         class CartManager {
@@ -487,46 +481,60 @@ if (!isset($_SESSION['iduser'])) {
             }
 
             addToCart(film) {
-                const existingItem = this.cart.find(item => item.id === film.id);
-                
+                // Normalisation de l'ID en nombre pour garantir la cohérence
+                const filmId = Number(film && film.id);
+                if (!Number.isFinite(filmId)) {
+                    this.showNotification('Erreur : film invalide', 'error');
+                    return;
+                }
+
+                const existingItem = this.cart.find(item => Number(item.id) === filmId);
+
                 if (existingItem) {
-                    existingItem.quantity += 1;
+                    existingItem.quantity = Number(existingItem.quantity) + 1;
                 } else {
                     this.cart.push({
-                        id: film.id,
-                        title: film.title,
-                        genre: film.genre,
-                        price: film.price,
-                        image: film.image,
+                        id: filmId,
+                        title: String(film.title || 'Film'),
+                        genre: String(film.genre || ''),
+                        price: Number(film.price || 0),
+                        image: film.image || '🎬',
                         quantity: 1
                     });
                 }
-                
+
                 this.saveCart();
                 this.renderCart();
-                this.showNotification(`${film.title} ajouté au panier !`, 'success');
+                this.showNotification(`${String(film.title || 'Film')} ajouté au panier !`, 'success');
             }
 
             removeFromCart(filmId) {
-                const itemToRemove = this.cart.find(item => item.id === filmId);
+                // ✅ Conversion en nombre pour garantir la comparaison correcte
+                const idToRemove = Number(filmId);
+                const itemToRemove = this.cart.find(item => Number(item.id) === idToRemove);
                 
                 if (itemToRemove) {
                     if (confirm(`Êtes-vous sûr de vouloir supprimer "${itemToRemove.title}" de votre panier ?`)) {
-                        this.cart = this.cart.filter(item => item.id !== filmId);
+                        this.cart = this.cart.filter(item => Number(item.id) !== idToRemove);
                         this.saveCart();
                         this.renderCart();
                         this.showNotification(`"${itemToRemove.title}" a été retiré du panier`, 'success');
                     }
+                } else {
+                    // ✅ Gestion d'erreur si l'élément n'est pas trouvé
+                    this.showNotification('Erreur : élément introuvable dans le panier', 'error');
                 }
             }
 
             updateQuantity(filmId, newQuantity) {
-                const item = this.cart.find(item => item.id === filmId);
+                // ✅ Conversion en nombre pour garantir la comparaison correcte
+                const idToUpdate = Number(filmId);
+                const item = this.cart.find(item => Number(item.id) === idToUpdate);
                 if (item) {
                     if (newQuantity <= 0) {
                         this.removeFromCart(filmId);
                     } else {
-                        item.quantity = newQuantity;
+                        item.quantity = Number(newQuantity);
                         this.saveCart();
                         this.renderCart();
                     }
@@ -635,7 +643,8 @@ if (!isset($_SESSION['iduser'])) {
                 this.showNotification('Redirection vers le paiement...', 'success');
                 
                 setTimeout(() => {
-                    window.location.href = 'paiement.php';
+                    // NB: la page de paiement est actuellement en .html
+                    window.location.href = 'paiement.html';
                 }, 500);
             }
 
