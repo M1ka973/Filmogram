@@ -1,7 +1,6 @@
-
-
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <!-- Définition de l'encodage en UTF-8 -->
     <meta charset="UTF-8">
@@ -14,6 +13,7 @@
     <!-- Lien vers la librairie Font Awesome (icônes) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body data-base-path="../">
     <!-- ===================== HEADER ===================== -->
     <header class="header">
@@ -23,13 +23,14 @@
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-             <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
+            <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
             <ul class="nav-menu">
                 <li><a href="../index.html">Accueil</a></li>
                 <li id="nav-films"><a href="film.html" class="active">Films</a></li>
                 <li id="nav-panier" style="display:none"><a href="panier.php">Panier</a></li>
                 <li id="nav-profil" style="display:none"><a href="profil.html">Profil</a></li>
                 <li id="nav-connexion"><a href="../login.php">Connexion</a></li>
+                <li id="nav-a-propos" style="display:none"><a href="a-propos.php">À propos</a></li>
             </ul>
 
             <!-- Bouton toggle (menu burger pour mobile) -->
@@ -43,14 +44,14 @@
 
     <!-- ===================== CONTENU PRINCIPAL ===================== -->
     <main class="main-content">
-      <section class="hero-section">
-    <div class="hero-content">
-        <h2>Découvrez Notre Collection de Films</h2>
-        <p>Des milliers de films pour tous les goûts et tous les âges</p>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>Découvrez Notre Collection de Films</h2>
+                <p>Des milliers de films pour tous les goûts et tous les âges</p>
 
-    </div>
-</section>  
-       
+            </div>
+        </section>
+
 
         <!-- ********** Section Filtres ********** -->
         <section class="filters-section">
@@ -61,7 +62,7 @@
                     <button type="button" aria-label="Rechercher"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="filters">
-                    
+
                     <!-- Filtre par genre -->
                     <div class="filter-group">
                         <label for="genreFilter">Genre:</label>
@@ -128,7 +129,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                
+
                 <!-- Section infos site -->
                 <div class="footer-section">
                     <h3>FILMOGRAM</h3>
@@ -168,4 +169,5 @@
     <script src="../js/films.js"></script>
     <script src="../js/site.js"></script>
 </body>
+
 </html>

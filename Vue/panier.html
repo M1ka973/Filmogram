@@ -10,6 +10,7 @@ if (!isset($_SESSION['iduser'])) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,14 +18,14 @@ if (!isset($_SESSION['iduser'])) {
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-                        <!--SECTION CSS -->
+    <!--SECTION CSS -->
     <style>
         .cart-container {
             min-height: 100vh;
             background: #f8f9fa;
             padding: 2rem 0;
         }
-        
+
         .cart-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -32,18 +33,18 @@ if (!isset($_SESSION['iduser'])) {
             text-align: center;
             margin-bottom: 2rem;
         }
-        
+
         .cart-header h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
-        
+
         .cart-header p {
             font-size: 1.1rem;
             opacity: 0.9;
         }
-        
+
         .cart-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -52,14 +53,14 @@ if (!isset($_SESSION['iduser'])) {
             grid-template-columns: 2fr 1fr;
             gap: 2rem;
         }
-        
+
         .cart-items {
             background: white;
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .cart-item {
             display: flex;
             align-items: center;
@@ -67,18 +68,18 @@ if (!isset($_SESSION['iduser'])) {
             border-bottom: 1px solid #e9ecef;
             transition: all 0.3s ease;
         }
-        
+
         .cart-item:last-child {
             border-bottom: none;
         }
-        
+
         .cart-item:hover {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 1.5rem;
             margin: 0 -1rem;
         }
-        
+
         .item-image {
             width: 120px;
             height: 80px;
@@ -92,36 +93,36 @@ if (!isset($_SESSION['iduser'])) {
             margin-right: 1.5rem;
             flex-shrink: 0;
         }
-        
+
         .item-details {
             flex: 1;
         }
-        
+
         .item-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 0.5rem;
         }
-        
+
         .item-genre {
             color: #6c757d;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .item-price {
             font-size: 1.1rem;
             font-weight: 700;
             color: #28a745;
         }
-        
+
         .item-controls {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
+
         .quantity-controls {
             display: flex;
             align-items: center;
@@ -129,7 +130,7 @@ if (!isset($_SESSION['iduser'])) {
             border-radius: 25px;
             padding: 0.5rem;
         }
-        
+
         .quantity-btn {
             background: none;
             border: none;
@@ -145,19 +146,19 @@ if (!isset($_SESSION['iduser'])) {
             align-items: center;
             justify-content: center;
         }
-        
+
         .quantity-btn:hover {
             background: #667eea;
             color: white;
         }
-        
+
         .quantity-display {
             margin: 0 1rem;
             font-weight: 600;
             min-width: 30px;
             text-align: center;
         }
-        
+
         .remove-btn {
             background: #dc3545;
             color: white;
@@ -168,22 +169,22 @@ if (!isset($_SESSION['iduser'])) {
             font-size: 0.9rem;
             transition: all 0.3s ease;
         }
-        
+
         .remove-btn:hover {
             background: #c82333;
             transform: translateY(-2px);
         }
-        
+
         .cart-summary {
             background: rgb(195, 146, 252);
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             height: fit-content;
             position: sticky;
             top: 2rem;
         }
-        
+
         .summary-title {
             font-size: 1.5rem;
             font-weight: 700;
@@ -191,14 +192,14 @@ if (!isset($_SESSION['iduser'])) {
             margin-bottom: 1.5rem;
             text-align: center;
         }
-        
+
         .summary-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 1rem;
             padding: 0.5rem 0;
         }
-        
+
         .summary-row.total {
             border-top: 2px solid #e9ecef;
             font-size: 1.2rem;
@@ -207,7 +208,7 @@ if (!isset($_SESSION['iduser'])) {
             margin-top: 1rem;
             padding-top: 1rem;
         }
-        
+
         .checkout-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -221,42 +222,42 @@ if (!isset($_SESSION['iduser'])) {
             transition: all 0.3s ease;
             margin-top: 1.5rem;
         }
-        
+
         .checkout-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         .checkout-btn:disabled {
             background: #6c757d;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        
+
         .empty-cart {
             text-align: center;
             padding: 4rem 2rem;
             color: #6c757d;
         }
-        
+
         .empty-cart i {
             font-size: 4rem;
             margin-bottom: 1rem;
             color: #dee2e6;
         }
-        
+
         .empty-cart h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: #495057;
         }
-        
+
         .empty-cart p {
             font-size: 1.1rem;
             margin-bottom: 2rem;
         }
-        
+
         .browse-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -267,14 +268,14 @@ if (!isset($_SESSION['iduser'])) {
             display: inline-block;
             transition: all 0.3s ease;
         }
-        
+
         .browse-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             color: white;
             text-decoration: none;
         }
-        
+
         .cart-count {
             background: #dc3545;
             color: white;
@@ -284,33 +285,33 @@ if (!isset($_SESSION['iduser'])) {
             font-weight: 600;
             margin-left: 0.5rem;
         }
-        
+
         @media (max-width: 768px) {
             .cart-content {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            
+
             .cart-item {
                 flex-direction: column;
                 text-align: center;
                 gap: 1rem;
             }
-            
+
             .item-image {
                 margin-right: 0;
                 margin-bottom: 1rem;
             }
-            
+
             .item-controls {
                 justify-content: center;
             }
-            
+
             .cart-header h1 {
                 font-size: 2rem;
             }
         }
-        
+
         .notification {
             position: fixed;
             top: 20px;
@@ -319,36 +320,37 @@ if (!isset($_SESSION['iduser'])) {
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             transform: translateX(400px);
             transition: transform 0.3s ease;
         }
-        
+
         .notification.show {
             transform: translateX(0);
         }
-        
+
         .notification.error {
             background: #dc3545;
         }
     </style>
 </head>
+
 <body>
-                        <!--FIN DE LA SECTION CSS -->
+    <!--FIN DE LA SECTION CSS -->
 
     <!-- Vérification de la session : redirection si non connecté -->
     <script>
-        (function() {
+        (function () {
             fetch('../check_session.php', { credentials: 'include' })
-                .then(function(r) { return r.json(); })
-                .then(function(data) {
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
                     if (!data.logged_in) {
                         alert('Veuillez vous connecter');
                         window.location.href = '../login.php?require_login=1';
                     }
                 })
-                .catch(function() {
+                .catch(function () {
                     alert('Veuillez vous connecter');
                     window.location.href = '../login.php?require_login=1';
                 });
@@ -362,12 +364,13 @@ if (!isset($_SESSION['iduser'])) {
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-             <!-- Menu de navigation -->
+            <!-- Menu de navigation -->
             <ul class="nav-menu">
                 <a href="../index.html">Accueil</a>
                 <a href="film.html">Films</a>
                 <a href="panier.php">Panier</a>
                 <a href="profil.html">Profil</a>
+                <a href="a-propos.php">À propos</a>
             </ul>
 
             <div class="nav-toggle">
@@ -512,7 +515,7 @@ if (!isset($_SESSION['iduser'])) {
                 // ✅ Conversion en nombre pour garantir la comparaison correcte
                 const idToRemove = Number(filmId);
                 const itemToRemove = this.cart.find(item => Number(item.id) === idToRemove);
-                
+
                 if (itemToRemove) {
                     if (confirm(`Êtes-vous sûr de vouloir supprimer "${itemToRemove.title}" de votre panier ?`)) {
                         this.cart = this.cart.filter(item => Number(item.id) !== idToRemove);
@@ -563,7 +566,7 @@ if (!isset($_SESSION['iduser'])) {
             renderCart() {
                 const cartItemsContainer = document.getElementById('cartItems');
                 const cartSummary = document.getElementById('cartSummary');
-                
+
                 if (this.cart.length === 0) {
                     cartItemsContainer.innerHTML = `
                         <div class="empty-cart">
@@ -604,7 +607,7 @@ if (!isset($_SESSION['iduser'])) {
                             </div>
                         </div>
                     `).join('');
-                    
+
                     cartSummary.style.display = 'block';
                     this.updateSummary();
                 }
@@ -620,10 +623,10 @@ if (!isset($_SESSION['iduser'])) {
             updateSummary() {
                 const subtotal = this.getTotal();
                 const total = subtotal;
-                
+
                 document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} €`;
                 document.getElementById('total').textContent = `${total.toFixed(2)} €`;
-                
+
                 const checkoutBtn = document.getElementById('checkoutBtn');
                 checkoutBtn.disabled = this.cart.length === 0;
             }
@@ -639,9 +642,9 @@ if (!isset($_SESSION['iduser'])) {
                     this.showNotification('Votre panier est vide !', 'error');
                     return;
                 }
-                
+
                 this.showNotification('Redirection vers le paiement...', 'success');
-                
+
                 setTimeout(() => {
                     // NB: la page de paiement est actuellement en .html
                     window.location.href = 'paiement.html';
@@ -652,7 +655,7 @@ if (!isset($_SESSION['iduser'])) {
                 const notification = document.getElementById('notification');
                 notification.textContent = message;
                 notification.className = `notification ${type} show`;
-                
+
                 setTimeout(() => {
                     notification.classList.remove('show');
                 }, 3000);
@@ -669,4 +672,5 @@ if (!isset($_SESSION['iduser'])) {
         });
     </script>
 </body>
+
 </html>
