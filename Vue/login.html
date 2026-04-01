@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <link rel="stylesheet" href="css/login.css"> <!-- !!!! CREER UN CSS POUR LA PAGE LOGIN !!!! -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- 
         CONTENEUR PRINCIPAL DE LA PAGE DE CONNEXION
@@ -14,16 +18,18 @@
         - Une partie droite avec le formulaire de connexion
     -->
     <div class="login-container">
-        
+
         <!-- 
             SECTION ILLUSTRATION (PARTIE GAUCHE)
             Affiche une image décorative avec un fond en dégradé
             Sert à rendre l'interface plus attrayante visuellement
         -->
         <div class="illustration">
-            <img src="../img/batman_001.png" alt="Illustration">
+            <div class="login-mark" aria-hidden="true">
+                <i class="fas fa-film"></i>
+            </div>
         </div>
-        
+
         <!-- 
             SECTION FORMULAIRE DE CONNEXION (PARTIE DROITE)
             Contient tous les éléments du formulaire de connexion :
@@ -34,14 +40,14 @@
         -->
         <div class="login-form">
             <h2>Bienvenue sur le Terrain</h2>
-            
+
             <!-- 
                 FORMULAIRE DE CONNEXION
                 Méthode POST pour sécuriser les données lors de l'envoi
                 Action vers login.php qui traite l'authentification côté serveur
             -->
             <form method="post" action="../login.php">
-                
+
                 <!-- 
                     CHAMP EMAIL
                     Groupe contenant le label et l'input pour l'adresse email
@@ -51,7 +57,7 @@
                     <label for="email">Email</label>
                     <input type="text" name="email" id="email" placeholder="Entrez votre email">
                 </div>
-                
+
                 <!-- 
                     CHAMP MOT DE PASSE
                     Type "password" masque automatiquement les caractères saisis
@@ -61,14 +67,10 @@
                     <label for="password">Mot de passe</label>
                     <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe">
                 </div>
-                
-                <!-- 
-                    BOUTON DE SOUMISSION
-                    L'attribut name="Connexion" permet d'identifier la soumission côté serveur
-                    Déclenche l'envoi du formulaire vers login.php
-                -->
+
                 <button type="submit" name="Connexion">Connexion</button>
-                
+                <!--//envoi du formulaire-->
+
                 <!-- 
                     LIEN VERS L'INSCRIPTION
                     Permet aux nouveaux utilisateurs de créer un compte
@@ -77,251 +79,16 @@
                 <div class="signup">
                     <p>Pas encore de compte ? <a href="../signup.php">Inscrivez-vous ici</a></p>
                 </div>
+                <!--//lien vers la page d'inscription-->
+
+                <div class="Redirige">
+                    <p>Droit Supérieur ? <a href="../admin/admin.php">Passer en ADMIN ici</a></p>
+                </div>
+                <!--//lien vers la page d'admin-->
 
             </form>
         </div>
     </div>
 </body>
+
 </html>
-
-<style>
-    /* 
-        ========================================
-        STYLES GÉNÉRAUX DU BODY
-        ========================================
-        Configuration de base pour centrer le contenu sur toute la page
-        Utilise flexbox pour un centrage vertical et horizontal parfait
-    */
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f4f4;
-        display: flex;
-        justify-content: center;  /* Centrage horizontal */
-        align-items: center;      /* Centrage vertical */
-        height: 100vh;            /* Hauteur pleine écran */
-        margin: 0;
-    }
-
-    /* 
-        ========================================
-        CONTENEUR PRINCIPAL DE CONNEXION
-        ========================================
-        Crée une carte avec deux colonnes (illustration + formulaire)
-        Utilise flexbox pour diviser l'espace équitablement
-        Ajoute ombre et bordures arrondies pour un effet moderne
-    */
-    .login-container {
-        display: flex;
-        background: white;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Ombre portée douce */
-        border-radius: 10px;
-        overflow: hidden;  /* Cache les débordements pour les coins arrondis */
-        width: 800px;
-        max-width: 90%;    /* Responsive : s'adapte aux petits écrans */
-    }
-
-    /* 
-        ========================================
-        SECTION ILLUSTRATION
-        ========================================
-        Partie gauche avec fond en dégradé violet/bleu
-        Centre l'image à l'intérieur avec flexbox
-        Prend 50% de l'espace grâce à flex: 1
-    */
-    .illustration {
-        background: linear-gradient(135deg, #6a11cb, #2575fc);  /* Dégradé diagonal */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 30px;
-        flex: 1;  /* Prend la moitié de l'espace disponible */
-    }
-
-    /* 
-        STYLE DE L'IMAGE D'ILLUSTRATION
-        Limite la taille de l'image pour qu'elle reste proportionnelle
-        Maintient le ratio d'aspect avec height: auto
-    */
-    .illustration img {
-        max-width: 100%;
-        width: 100px;
-        height: auto;
-    }
-
-    /* 
-        ========================================
-        SECTION FORMULAIRE
-        ========================================
-        Partie droite contenant tous les éléments du formulaire
-        Prend également 50% de l'espace (flex: 1)
-        Hauteur fixe pour maintenir la cohérence visuelle
-    */
-    .login-form {
-        flex: 1;
-        padding: 40px;
-        text-align: center;
-        height: 350px;   
-    }
-
-    /* 
-        TITRE DU FORMULAIRE
-        Style du texte "Bienvenue sur le Terrain"
-    */
-    h2 {
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: #333;
-    }
-
-    /* 
-        ========================================
-        GROUPES DE CHAMPS (EMAIL ET MOT DE PASSE)
-        ========================================
-        Conteneur pour chaque paire label/input
-        Alignement à gauche pour une meilleure lisibilité
-    */
-    .input-group {
-        text-align: left;
-        margin-bottom: 15px;
-    }
-
-    /* 
-        LABELS DES CHAMPS
-        Affichage en bloc pour occuper toute la largeur
-        Gras pour améliorer la hiérarchie visuelle
-    */
-    .input-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    /* 
-        CHAMPS DE SAISIE (INPUT)
-        Style uniforme pour tous les champs texte et password
-        Bordures arrondies et espacement interne confortable
-    */
-    .input-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-    /* 
-        GROUPE SPÉCIFIQUE POUR LE MOT DE PASSE
-        Position relative pour permettre l'ajout d'éléments en position absolue
-        (comme un bouton pour afficher/masquer le mot de passe)
-    */
-    .password-group {
-        position: relative;
-    }
-
-    /* 
-        BOUTON TOGGLE PASSWORD (NON UTILISÉ ACTUELLEMENT)
-        Prévu pour afficher un icône permettant de voir le mot de passe
-        Positionné à droite du champ password
-    */
-    .toggle-password {
-        position: absolute;
-        right: 10px;
-    }
-
-    /* 
-        OPTIONS SUPPLÉMENTAIRES (NON UTILISÉES ACTUELLEMENT)
-        Style prévu pour des options comme "Se souvenir de moi" ou "Mot de passe oublié"
-        Disposition en ligne avec espacement entre les éléments
-    */
-    .options {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
-
-    /* 
-        ========================================
-        BOUTON DE CONNEXION
-        ========================================
-        Style principal du bouton de soumission
-        Fond sombre avec transition douce au survol
-        Occupe toute la largeur pour un meilleur impact visuel
-    */
-    button {
-        width: 100%;
-        padding: 10px;
-        background-color: #333;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;  /* Animation douce pour le hover */
-    }
-
-    /* 
-        EFFET HOVER DU BOUTON
-        Éclaircit légèrement le fond au survol de la souris
-    */
-    button:hover {
-        background-color: #555;
-    }
-
-    /* 
-        ========================================
-        BOUTON CONNEXION GOOGLE (NON UTILISÉ)
-        ========================================
-        Style prévu pour un bouton de connexion via Google
-        Fond blanc avec bordure pour se différencier du bouton principal
-    */
-    .google-login {
-        margin-top: 10px;
-        background-color: #fff;
-        color: #333;
-        border: 1px solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-    }
-
-    .google-login:hover {
-        background-color: #f0f0f0;
-    }
-
-    /* 
-        MESSAGE D'ERREUR (NON UTILISÉ ACTUELLEMENT)
-        Style pour afficher les erreurs de connexion (identifiants incorrects, etc.)
-    */
-    .error-message {
-        color: red;
-        margin-top: 10px;
-    }
-
-    /* 
-        ========================================
-        SECTION INSCRIPTION
-        ========================================
-        Lien vers la page d'inscription pour les nouveaux utilisateurs
-        Placé en bas du formulaire avec un style discret
-    */
-    .signup {
-        margin-top: 20px;
-        font-size: 14px;
-    }
-
-    /* 
-        LIEN D'INSCRIPTION
-        Style bleu standard pour les liens avec soulignement au survol
-    */
-    .signup a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .signup a:hover {
-        text-decoration: underline;
-    }
-
-</style>

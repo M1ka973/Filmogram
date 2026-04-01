@@ -57,8 +57,8 @@ if (isset($_POST['Inscription'])) {
             if ($stmt->rowCount() > 0) {
                 $error_message = "Cet email est déjà utilisé.";
             } else {
-                // Insérer le nouvel utilisateur (mot de passe en clair pour correspondre à la BDD actuelle)
-                // ⚠️ À sécuriser ensuite avec password_hash + password_verify
+                // Insérer le nouvel utilisateur (mot de passe hashé)
+                $hash = password_hash($mdp, PASSWORD_DEFAULT);
                 $stmt = $pdo->prepare("
                     INSERT INTO user (prenom, nom, adresse, email, tel, password) 
                     VALUES (:prenom, :nom, :adresse, :email, :tel, :mdp)
@@ -69,7 +69,7 @@ if (isset($_POST['Inscription'])) {
                 $stmt->bindParam(':adresse', $adresse);
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':tel', $tel);
-                $stmt->bindParam(':mdp', $mdp);
+                $stmt->bindParam(':mdp', $hash);
                 
                 if ($stmt->execute()) {
                     $success_message = "Inscription réussie ! Vous allez être redirigé vers la page de connexion...";

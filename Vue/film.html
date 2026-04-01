@@ -1,7 +1,6 @@
-
-
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <!-- Définition de l'encodage en UTF-8 -->
     <meta charset="UTF-8">
@@ -10,11 +9,12 @@
     <!-- Titre de la page affiché dans l'onglet -->
     <title>Films | FILMOGRAM</title>
     <!-- Lien vers la feuille de style CSS personnalisée -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <!-- Lien vers la librairie Font Awesome (icônes) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+
+<body data-base-path="../">
     <!-- ===================== HEADER ===================== -->
     <header class="header">
         <nav class="navbar">
@@ -23,13 +23,14 @@
                 <h1><i class="fas fa-film"></i> FILMOGRAM</h1>
             </div>
 
-             <!-- Menu de navigation -->
+            <!-- Menu de navigation (Panier et Profil visibles uniquement si connecté) -->
             <ul class="nav-menu">
-                <a href="../index.html">Accueil</a>
-                <a href="film.html">Films</a>
-                <a href="panier.html">Panier</a>
-                <a href="profil.html">Profil</a>
-                <a href="login.php">Connexion</a>
+                <li><a href="../index.html">Accueil</a></li>
+                <li id="nav-films"><a href="film.html" class="active">Films</a></li>
+                <li id="nav-panier" style="display:none"><a href="panier.php">Panier</a></li>
+                <li id="nav-profil" style="display:none"><a href="profil.html">Profil</a></li>
+                <li id="nav-connexion"><a href="../login.php">Connexion</a></li>
+                <li id="nav-a-propos" style="display:none"><a href="a-propos.php">À propos</a></li>
             </ul>
 
             <!-- Bouton toggle (menu burger pour mobile) -->
@@ -43,35 +44,30 @@
 
     <!-- ===================== CONTENU PRINCIPAL ===================== -->
     <main class="main-content">
-      <section class="hero-section">
-    <div class="hero-content">
-        <h2>Découvrez Notre Collection de Films</h2>
-        <p>Des milliers de films pour tous les goûts et tous les âges</p>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>Découvrez Notre Collection de Films</h2>
+                <p>Des milliers de films pour tous les goûts et tous les âges</p>
 
-    </div>
-</section>  
-       
+            </div>
+        </section>
+
 
         <!-- ********** Section Filtres ********** -->
         <section class="filters-section">
             <div class="container">
+                <!-- Barre de recherche de films -->
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher un film..." id="searchInput">
+                    <button type="button" aria-label="Rechercher"><i class="fas fa-search"></i></button>
+                </div>
                 <div class="filters">
-                    
+
                     <!-- Filtre par genre -->
                     <div class="filter-group">
                         <label for="genreFilter">Genre:</label>
                         <select id="genreFilter">
-<!--Option qui permet de tout selectionner--> <option value="">Tous les genres</option>
-                            <option value="action">Action</option>
-                            <option value="animation">Animation</option>
-                        <!--    <option value="comedie">Comédie</option>   -->
-                        <!--   <option value="crime">Crime</option>   --> 
-                            <option value="drame">Drame</option>
-                            <option value="horreur">Horreur</option>
-                        <!--    <option value="musical">Musical</option>   -->
-                            <option value="romance">Romance</option>
-                            <option value="science-fiction">Science-Fiction</option>
-                            <option value="thriller">Thriller</option> 
+                            <option value="">Tous les genres</option>
                         </select>
                     </div>
 
@@ -133,7 +129,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                
+
                 <!-- Section infos site -->
                 <div class="footer-section">
                     <h3>FILMOGRAM</h3>
@@ -143,16 +139,12 @@
                 <!-- Section liens rapides -->
                 <div class="footer-section">
                     <h4>Liens rapides</h4>
-                    <ul class="nav-menu">
-                <!-- Lien vers la page d'accueil -->
-                <li><a href="index.html">Accueil</a></li>
-                <!-- Lien vers la page des films (actif sur cette page) -->
-                <li><a href="/Vue/film.html" class="active">Films</a></li>
-                <!-- Lien vers le panier -->
-                <li><a href="/Vue/panier.html">Panier</a></li>
-                <!-- Lien vers la page de profil -->
-                <li><a href="/Vue/profil.html">Profil</a></li>
-            </ul>
+                    <ul>
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="film.html" class="active">Films</a></li>
+                        <li><a href="panier.php">Panier</a></li>
+                        <li><a href="profil.html">Profil</a></li>
+                    </ul>
                 </div>
 
                 <!-- Section réseaux sociaux -->
@@ -165,17 +157,6 @@
                     </div>
                 </div>
             </div>
-             <!-- ********** Section Hero (bannière principale) ********** -->
-        <!--<section class="hero-section"> -->
-            <div class="hero-content">
-                
-                <!-- Barre de recherche de films -->
-                <div class="search-bar">
-                    <input type="text" placeholder="Rechercher un film..." id="searchInput">
-                    <button type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </section>
             <!-- Texte bas du footer -->
             <div class="footer-bottom">
                 <p>&copy; 2024 FILMOGRAM. Tous droits réservés.</p>
@@ -186,5 +167,7 @@
     <!-- ===================== SCRIPT JS ===================== -->
     <!-- Fichier JavaScript pour gérer l'affichage des films -->
     <script src="../js/films.js"></script>
+    <script src="../js/site.js"></script>
 </body>
+
 </html>
