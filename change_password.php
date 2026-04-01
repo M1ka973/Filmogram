@@ -7,7 +7,7 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
-session_start();
+session_start(); //initialisation d'un nouvelle session
 if (!isset($_SESSION['iduser'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Utilisateur non connecté']);
