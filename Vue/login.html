@@ -4,91 +4,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Connexion — Filmogram</title>
+    <meta name="description" content="Connectez-vous à Filmogram en tant qu'utilisateur ou administrateur.">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- 
-        CONTENEUR PRINCIPAL DE LA PAGE DE CONNEXION
-        Utilise une structure flexbox pour diviser la page en deux parties :
-        - Une partie gauche avec une illustration
-        - Une partie droite avec le formulaire de connexion
-    -->
-    <div class="login-container">
 
-        <!-- 
-            SECTION ILLUSTRATION (PARTIE GAUCHE)
-            Affiche une image décorative avec un fond en dégradé
-            Sert à rendre l'interface plus attrayante visuellement
-        -->
+    <!-- 
+        ÉCRAN DE SÉLECTION DU RÔLE
+        L'utilisateur choisit entre "Utilisateur" et "Administrateur"
+        avant d'accéder au formulaire de connexion correspondant.
+    -->
+    <div class="role-selector" id="roleSelector">
+        <div class="role-selector-card">
+            <div class="role-header">
+                <div class="role-logo-icon" aria-hidden="true">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h1 class="role-title">FILMOGRAM</h1>
+                <p class="role-subtitle">Choisissez votre mode de connexion</p>
+            </div>
+
+            <div class="role-options">
+                <!-- Choix Utilisateur -->
+                <button class="role-card" id="btnUser" onclick="selectRole('user')" type="button">
+                    <div class="role-card-icon user-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Utilisateur</h3>
+                    <p>Accédez à votre espace personnel, explorez les films et gérez vos favoris.</p>
+                    <span class="role-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                </button>
+
+                <!-- Choix Administrateur -->
+                <button class="role-card" id="btnAdmin" onclick="selectRole('admin')" type="button">
+                    <div class="role-card-icon admin-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Administrateur</h3>
+                    <p>Gérez les films, les utilisateurs et le contenu du site.</p>
+                    <span class="role-card-arrow"><i class="fas fa-arrow-right"></i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        CONTENEUR PRINCIPAL DE LA PAGE DE CONNEXION UTILISATEUR
+        Caché par défaut, affiché après le choix du rôle "Utilisateur"
+    -->
+    <div class="login-container" id="loginContainer" style="display:none;">
+
+        <!-- SECTION ILLUSTRATION (PARTIE GAUCHE) -->
         <div class="illustration">
             <div class="login-mark" aria-hidden="true">
                 <i class="fas fa-film"></i>
             </div>
         </div>
 
-        <!-- 
-            SECTION FORMULAIRE DE CONNEXION (PARTIE DROITE)
-            Contient tous les éléments du formulaire de connexion :
-            - Titre de bienvenue
-            - Champs email et mot de passe
-            - Bouton de soumission
-            - Lien vers la page d'inscription
-        -->
+        <!-- SECTION FORMULAIRE DE CONNEXION (PARTIE DROITE) -->
         <div class="login-form">
+            <button class="back-to-role" onclick="goBackToRole()" type="button" aria-label="Retour au choix du rôle">
+                <i class="fas fa-arrow-left"></i> Retour
+            </button>
+
             <h2>Bienvenue sur le Terrain</h2>
 
-            <!-- 
-                FORMULAIRE DE CONNEXION
-                Méthode POST pour sécuriser les données lors de l'envoi
-                Action vers login.php qui traite l'authentification côté serveur
-            -->
+            <!-- FORMULAIRE DE CONNEXION UTILISATEUR -->
             <form method="post" action="../login.php">
 
-                <!-- 
-                    CHAMP EMAIL
-                    Groupe contenant le label et l'input pour l'adresse email
-                    Type "text" permet la saisie libre (pourrait être "email" pour validation HTML5)
-                -->
+                <!-- CHAMP EMAIL -->
                 <div class="input-group">
                     <label for="email">Email</label>
                     <input type="text" name="email" id="email" placeholder="Entrez votre email">
                 </div>
 
-                <!-- 
-                    CHAMP MOT DE PASSE
-                    Type "password" masque automatiquement les caractères saisis
-                    Classe supplémentaire "password-group" pour un style spécifique si besoin
-                -->
+                <!-- CHAMP MOT DE PASSE -->
                 <div class="input-group password-group">
                     <label for="password">Mot de passe</label>
                     <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe">
                 </div>
 
                 <button type="submit" name="Connexion">Connexion</button>
-                <!--//envoi du formulaire-->
 
-                <!-- 
-                    LIEN VERS L'INSCRIPTION
-                    Permet aux nouveaux utilisateurs de créer un compte
-                    Redirige vers la page signup.php
-                -->
+                <!-- LIEN VERS L'INSCRIPTION -->
                 <div class="signup">
                     <p>Pas encore de compte ? <a href="../signup.php">Inscrivez-vous ici</a></p>
                 </div>
-                <!--//lien vers la page d'inscription-->
-
-                <div class="Redirige">
-                    <p>Droit Supérieur ? <a href="../admin/admin.php">Passer en ADMIN ici</a></p>
-                </div>
-                <!--//lien vers la page d'admin-->
 
             </form>
         </div>
     </div>
+
+    <script>
+        /**
+         * Gère la sélection du rôle de connexion.
+         * - "user"  → affiche le formulaire utilisateur sur cette page
+         * - "admin" → redirige vers la page admin_login.php
+         */
+        function selectRole(role) {
+            if (role === 'admin') {
+                // Redirige vers la page de connexion admin
+                window.location.href = '../admin/admin_login.php';
+            } else {
+                // Animation de transition vers le formulaire utilisateur
+                const selector = document.getElementById('roleSelector');
+                const container = document.getElementById('loginContainer');
+
+                selector.classList.add('fade-out');
+                setTimeout(() => {
+                    selector.style.display = 'none';
+                    container.style.display = 'flex';
+                    // Déclenche l'animation d'apparition
+                    requestAnimationFrame(() => {
+                        container.classList.add('fade-in');
+                    });
+                }, 350);
+            }
+        }
+
+        /**
+         * Retour à l'écran de sélection du rôle
+         */
+        function goBackToRole() {
+            const selector = document.getElementById('roleSelector');
+            const container = document.getElementById('loginContainer');
+
+            container.classList.remove('fade-in');
+            container.classList.add('fade-out');
+            setTimeout(() => {
+                container.style.display = 'none';
+                container.classList.remove('fade-out');
+                selector.style.display = 'flex';
+                selector.classList.remove('fade-out');
+                // Déclenche l'animation d'apparition
+                requestAnimationFrame(() => {
+                    selector.classList.add('fade-in');
+                    setTimeout(() => selector.classList.remove('fade-in'), 500);
+                });
+            }, 350);
+        }
+    </script>
+
 </body>
 
 </html>

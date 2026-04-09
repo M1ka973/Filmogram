@@ -388,6 +388,7 @@ if (isset($_GET['reset'])) {
       </button>
     </form>
 
+    <a href="../Vue/login.html" class="home-link"><i class="fas fa-arrow-left"></i> Connexion utilisateur</a>
     <a href="../index.html" class="home-link"><i class="fas fa-home"></i> Retour au site</a>
 
     <?php else: ?>
