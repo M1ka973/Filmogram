@@ -103,7 +103,7 @@
         /**
          * Gère la sélection du rôle de connexion.
          * - "user"  → affiche le formulaire utilisateur sur cette page
-         * - "admin" → redirige vers la page admin_login.php
+         * - "admin" → redirige vers la page de connexion admin
          */
         function selectRole(role) {
             if (role === 'admin') {
@@ -147,6 +147,57 @@
                 });
             }, 350);
         }
+
+        /**
+         * Gestion des paramètres URL au chargement de la page :
+         * - ?login_error=...  → affiche l'erreur dans le formulaire utilisateur
+         * - ?require_login=1  → affiche une popup "Veuillez vous connecter"
+         */
+        document.addEventListener('DOMContentLoaded', function () {
+            const params = new URLSearchParams(window.location.search);
+
+            // ── Erreur de connexion ─────────────────────────────────────────
+            const loginError = params.get('login_error');
+            if (loginError) {
+                // Afficher directement le formulaire utilisateur
+                selectRole('user');
+
+                // Injecter le message d'erreur dans le formulaire
+                const form = document.querySelector('#loginContainer form');
+                if (form) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'login-error-msg';
+                    errorDiv.style.cssText = 'color:#ff6b6b;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:14px;text-align:center;';
+                    errorDiv.textContent = decodeURIComponent(loginError);
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) form.insertBefore(errorDiv, submitBtn);
+                }
+
+                // Nettoyer l'URL sans recharger la page
+                history.replaceState(null, '', window.location.pathname);
+            }
+
+            // ── Popup "Veuillez vous connecter" ────────────────────────────
+            if (params.has('require_login')) {
+                const popup = document.createElement('div');
+                popup.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#667eea;color:white;padding:1rem 1.5rem;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.25);z-index:9999;font-weight:600;animation:slideDown 0.3s ease;';
+                popup.textContent = 'Veuillez vous connecter pour continuer';
+                document.body.appendChild(popup);
+
+                // Ajouter le keyframe slideDown s'il n'existe pas
+                if (!document.getElementById('slideDownKF')) {
+                    const style = document.createElement('style');
+                    style.id = 'slideDownKF';
+                    style.textContent = '@keyframes slideDown{from{opacity:0;top:-50px}to{opacity:1;top:20px}}';
+                    document.head.appendChild(style);
+                }
+
+                setTimeout(() => popup.remove(), 4000);
+
+                // Nettoyer l'URL
+                history.replaceState(null, '', window.location.pathname);
+            }
+        });
     </script>
 
 </body>

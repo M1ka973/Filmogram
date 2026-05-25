@@ -3,7 +3,7 @@
  * users_api.php — API REST pour la gestion des utilisateurs (admin)
  * Méthodes : GET | POST | PUT | PATCH | DELETE
  */
-require_once '../../check_admin_session.php';
+require_once '../check_admin_session.php';
 require_once '../../db_connect.php';
 
 header('Content-Type: application/json; charset=utf-8');
