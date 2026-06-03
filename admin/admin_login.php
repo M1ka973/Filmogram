@@ -4,6 +4,10 @@
  * Étape 1 : email + mot de passe
  * Étape 2 : question secrète
  */
+//Paramètre et Sauvegarde pour les Cookies
+require_once '../db_connect.php';
+session_start();
+
 session_set_cookie_params([
     'lifetime' => 0,
     'path'     => '/',
@@ -12,7 +16,7 @@ session_set_cookie_params([
     'httponly' => true,
     'samesite' => 'Lax'
 ]);
-session_start();
+
 
 // Déjà connecté → dashboard
 if (!empty($_SESSION['admin_logged_in'])) {
@@ -20,7 +24,6 @@ if (!empty($_SESSION['admin_logged_in'])) {
     exit();
 }
 
-require_once '../db_connect.php';
 
 $step     = $_SESSION['admin_step'] ?? 1;
 $error    = '';
