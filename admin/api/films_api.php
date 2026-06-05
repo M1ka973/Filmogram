@@ -2,7 +2,7 @@
 /**
  * films_api.php — API REST pour la gestion des films (admin)
  */
-require_once '../../check_admin_session.php';
+require_once '../check_admin_session.php';
 require_once '../../db_connect.php';
 
 header('Content-Type: application/json; charset=utf-8');

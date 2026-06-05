@@ -28,7 +28,7 @@
                 <li id="nav-panier" style="display:none"><a href="panier.php">Panier</a></li>
                 <li id="nav-profil" style="display:none"><a href="profil.html">Profil</a></li>
                 <li id="nav-a-propos" style="display:none"><a href="a-propos.php">À propos</a></li>
-                <li id="nav-connexion"><a href="../login.php">Connexion</a></li>
+                <li id="nav-connexion"><a href="../Vue/login.html">Connexion</a></li>
             </ul>
 
         </nav>

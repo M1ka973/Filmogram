@@ -17,7 +17,7 @@
 
     if (navPanier) navPanier.style.display = 'none';
     if (navProfil) navProfil.style.display = 'none';
-    if (navConnexion) navConnexion.innerHTML = `<a href="${basePath}login.php">Connexion</a>`;
+    if (navConnexion) navConnexion.innerHTML = `<a href="${basePath}Vue/login.html">Connexion</a>`;
   }
 
   function setLoggedInNav(basePath) {

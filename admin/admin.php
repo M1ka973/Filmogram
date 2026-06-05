@@ -272,8 +272,30 @@ $adminInitials = $admin ? strtoupper(substr($admin['prenom'],0,1).substr($admin[
           <input type="text" id="film-image" placeholder="🎬" maxlength="4">
         </div>
         <div class="form-group">
-          <label>Image (URL ou chemin)</label>
-          <input type="text" id="film-poster" placeholder="../img/film.jpg">
+          <label>URL Poster <span style="color:var(--muted);font-weight:400;font-size:10px">(auto-remplie après Drive)</span></label>
+          <input type="text" id="film-poster" placeholder="https://drive.google.com/... ou ../img/film.jpg">
+        </div>
+        <div class="form-group full">
+          <label>Poster du film — Upload vers Google Drive</label>
+          <!-- Zone drag & drop -->
+          <div class="upload-zone" id="poster-upload-zone"
+               onclick="document.getElementById('poster-file-input').click()"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="handlePosterDrop(event)">
+            <div class="upload-zone-placeholder" id="upload-placeholder">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Glissez une image ici ou <span class="upload-link">cliquez pour sélectionner</span></p>
+              <p class="upload-hint">JPG · PNG · WebP · GIF — max 50 Mo</p>
+            </div>
+            <img id="poster-preview-img" class="poster-preview-img" style="display:none" alt="Aperçu poster">
+          </div>
+          <input type="file" id="poster-file-input" accept="image/*" style="display:none" onchange="handlePosterFileSelect(this)">
+          <!-- Bouton Google Drive -->
+          <button type="button" class="btn btn-drive" id="drive-upload-btn" onclick="uploadPosterToDrive()" style="display:none;margin-top:10px">
+            <i class="fab fa-google-drive"></i>
+            <span id="drive-btn-label">Sauvegarder sur Google Drive</span>
+          </button>
         </div>
         <div class="form-group full">
           <label>Synopsis</label>

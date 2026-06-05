@@ -14,9 +14,10 @@ const API = {
 // ─── ÉTAT ──────────────────────────────────────────────────
 let allFilms = [];
 let allUsers = [];
-let editingFilmId = null;
-let editingUserId = null;
-let deleteTarget  = { type: null, id: null };
+let editingFilmId   = null;
+let editingUserId   = null;
+let deleteTarget    = { type: null, id: null };
+let selectedPoster  = null; // File sélectionné pour l'upload
 
 // ─── INIT ───────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -72,9 +73,17 @@ function renderFilmsGrid(films) {
   const grid = document.getElementById('admin-films-grid');
   if (films.length === 0) { grid.innerHTML = emptyHtml('film', 'Aucun film dans le catalogue'); return; }
 
-  grid.innerHTML = films.map(f => `
+  grid.innerHTML = films.map(f => {
+    const hasPoster = f.poster && f.poster.trim();
+    const thumbHtml = hasPoster
+      ? `<img src="${esc(f.poster)}" alt="${esc(f.nom)}" class="film-card-poster"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <div class="film-emoji" style="display:none">${f.image || '🎬'}</div>`
+      : `<div class="film-emoji">${f.image || '🎬'}</div>`;
+
+    return `
     <div class="admin-film-card" id="film-card-${f.idfilm}">
-      <div class="film-emoji">${f.image || '🎬'}</div>
+      <div class="film-thumb">${thumbHtml}</div>
       <div class="film-info">
         <div class="film-title" title="${esc(f.nom)}">${esc(f.nom)}</div>
         <div class="film-meta">
@@ -83,12 +92,16 @@ function renderFilmsGrid(films) {
           <span class="tag tag-age">${f.age == 0 || f.age == 1 ? 'Tout public' : f.age + '+'}</span>
         </div>
         <div class="film-actions">
-          <button class="btn btn-edit btn-sm" onclick="openEditFilm(${f.idfilm})"><i class="fas fa-pencil-alt"></i></button>
-          <button class="btn btn-danger btn-sm" onclick="confirmDelete('film', ${f.idfilm}, '${esc(f.nom)}')"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-edit btn-sm" onclick="openEditFilm(${f.idfilm})" title="Modifier">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete('film', ${f.idfilm}, '${esc(f.nom)}')" title="Supprimer">
+            <i class="fas fa-trash"></i>
+          </button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function filterFilmsGrid() {
@@ -106,6 +119,7 @@ function openAddFilm() {
   document.getElementById('film-modal-title').textContent = '➕ Ajouter un film';
   document.getElementById('film-form').reset();
   document.getElementById('film-image').value = '🎬';
+  resetPosterUpload();
   openModal('film-modal');
 }
 
@@ -121,6 +135,14 @@ function openEditFilm(id) {
   document.getElementById('film-image').value    = film.image || '🎬';
   document.getElementById('film-synopsis').value = film.synopsis || '';
   document.getElementById('film-poster').value   = film.poster || '';
+  // Afficher le poster existant dans la zone d'aperçu
+  resetPosterUpload();
+  if (film.poster && film.poster.trim()) {
+    const img = document.getElementById('poster-preview-img');
+    img.src = film.poster;
+    img.style.display = 'block';
+    document.getElementById('upload-placeholder').style.display = 'none';
+  }
   openModal('film-modal');
 }
 
@@ -149,6 +171,138 @@ async function saveFilm() {
     loadFilms();
   } else {
     showToast(data?.message || 'Erreur lors de la sauvegarde.', 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  UPLOAD POSTER — Google Drive
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Réinitialise la zone d'upload (état vierge).
+ */
+function resetPosterUpload() {
+  selectedPoster = null;
+  const img  = document.getElementById('poster-preview-img');
+  const ph   = document.getElementById('upload-placeholder');
+  const btn  = document.getElementById('drive-upload-btn');
+  const inp  = document.getElementById('poster-file-input');
+  if (img)  { img.src = ''; img.style.display = 'none'; }
+  if (ph)   { ph.style.display = 'flex'; }
+  if (btn)  { btn.style.display = 'none'; }
+  if (inp)  { inp.value = ''; }
+  document.getElementById('poster-upload-zone').classList.remove('drag-over', 'has-file');
+}
+
+/**
+ * Appelé quand l'utilisateur sélectionne un fichier via l'input.
+ */
+function handlePosterFileSelect(input) {
+  if (input.files && input.files[0]) {
+    handlePosterFile(input.files[0]);
+  }
+}
+
+/**
+ * Appelé lors d'un dépôt (drag & drop) sur la zone.
+ */
+function handlePosterDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const zone = document.getElementById('poster-upload-zone');
+  zone.classList.remove('drag-over');
+  const file = e.dataTransfer?.files?.[0];
+  if (file && file.type.startsWith('image/')) {
+    handlePosterFile(file);
+  } else if (file) {
+    showToast('Seuls les fichiers image sont acceptés.', 'error');
+  }
+}
+
+/**
+ * Prévisualise le fichier image et affiche le bouton Drive.
+ */
+function handlePosterFile(file) {
+  selectedPoster = file;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = document.getElementById('poster-preview-img');
+    const ph  = document.getElementById('upload-placeholder');
+    const btn = document.getElementById('drive-upload-btn');
+    const zone = document.getElementById('poster-upload-zone');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    ph.style.display = 'none';
+    btn.style.display = 'inline-flex';
+    zone.classList.add('has-file');
+    resetDriveBtn();
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetDriveBtn() {
+  const btn   = document.getElementById('drive-upload-btn');
+  const label = document.getElementById('drive-btn-label');
+  if (btn) {
+    btn.disabled = false;
+    btn.classList.remove('uploading');
+  }
+  if (label) label.textContent = 'Sauvegarder sur Google Drive';
+}
+
+/**
+ * Envoie le fichier sélectionné vers Google Drive via upload_poster_api.php.
+ * Remplit automatiquement le champ film-poster avec l'URL Drive retournée.
+ */
+async function uploadPosterToDrive() {
+  if (!selectedPoster) {
+    showToast('Aucun fichier sélectionné.', 'error');
+    return;
+  }
+
+  const btn   = document.getElementById('drive-upload-btn');
+  const label = document.getElementById('drive-btn-label');
+  btn.disabled = true;
+  btn.classList.add('uploading');
+  label.textContent = 'Upload en cours…';
+
+  const formData = new FormData();
+  formData.append('poster', selectedPoster);
+
+  try {
+    const res  = await fetch('api/upload_poster_api.php', {
+      method:      'POST',
+      credentials: 'include',
+      body:        formData,
+    });
+    const data = await res.json();
+
+    if (data?.success) {
+      // Remplir le champ URL automatiquement
+      document.getElementById('film-poster').value = data.url;
+      showToast('✅ ' + data.message, 'success');
+      label.textContent = '✅ Uploadé sur Drive !';
+      btn.classList.remove('uploading');
+      // Afficher le lien Drive dans la zone d'aperçu
+      if (data.driveUrl) {
+        const driveLink = document.createElement('a');
+        driveLink.href   = data.driveUrl;
+        driveLink.target = '_blank';
+        driveLink.className = 'drive-result-link';
+        driveLink.innerHTML = '<i class="fab fa-google-drive"></i> Voir sur Google Drive';
+        const zone = document.getElementById('poster-upload-zone');
+        // Supprimer ancien lien s'il existe
+        zone.parentNode.querySelectorAll('.drive-result-link').forEach(el => el.remove());
+        zone.parentNode.insertBefore(driveLink, btn.nextSibling);
+      }
+      selectedPoster = null;
+    } else {
+      showToast(data?.message || 'Erreur lors de l\'upload Drive.', 'error');
+      resetDriveBtn();
+    }
+  } catch (err) {
+    showToast('Erreur réseau : ' + err.message, 'error');
+    resetDriveBtn();
   }
 }
 

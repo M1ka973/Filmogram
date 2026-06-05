@@ -74,7 +74,7 @@ if (isset($_POST['Inscription'])) {
                 if ($stmt->execute()) {
                     $success_message = "Inscription réussie ! Vous allez être redirigé vers la page de connexion...";
                     // Redirection après 2 secondes
-                    header("refresh:2;url=login.php");
+                    header("refresh:2;url=Vue/login.html");
                 }
             }
             
@@ -322,7 +322,7 @@ if (isset($_POST['Inscription'])) {
             </button>
 
             <div class="login-link">
-                Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a>
+                Vous avez déjà un compte ? <a href="Vue/login.html">Connectez-vous ici</a>
             </div>
         </form>
     </div>

@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement | FILMOGRAM</title>
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+
     <style>
         .payment-container {
             min-height: 100vh;
             background: #f8f9fa;
             padding: 2rem 0;
         }
-        
+
         .payment-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            color: rgb(100, 59, 59);
             padding: 3rem 0;
             text-align: center;
             margin-bottom: 2rem;
         }
-        
+
         .payment-header h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
-        
+
         .payment-content {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 1rem;
         }
-        
+
         .payment-card {
-            background: white;
+            background: #4a2b41;
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
         }
-        
+
         .order-summary {
-            background: #f8f9fa;
+            background: #f380d8;
             border-radius: 10px;
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .order-item {
             display: flex;
             justify-content: space-between;
             padding: 0.5rem 0;
             border-bottom: 1px solid #e9ecef;
         }
-        
+
         .order-item:last-child {
             border-bottom: none;
         }
-        
+
         .order-total {
             display: flex;
             justify-content: space-between;
@@ -70,39 +71,39 @@
             padding-top: 1rem;
             border-top: 2px solid #667eea;
         }
-        
+
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: #2c3e50;
         }
-        
+
         .form-group input {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid #e9ecef;
+            border: 2px solid #1d4e7e;
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s;
             box-sizing: border-box;
         }
-        
+
         .form-group input:focus {
             outline: none;
             border-color: #667eea;
         }
-        
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
-        
+
         .payment-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -116,18 +117,18 @@
             transition: all 0.3s ease;
             margin-top: 1rem;
         }
-        
+
         .payment-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         .payment-btn:disabled {
             background: #6c757d;
             cursor: not-allowed;
             transform: none;
         }
-        
+
         .back-btn {
             display: inline-block;
             color: #667eea;
@@ -135,11 +136,11 @@
             margin-top: 1rem;
             font-weight: 600;
         }
-        
+
         .back-btn:hover {
             text-decoration: underline;
         }
-        
+
         .notification {
             position: fixed;
             top: 20px;
@@ -148,31 +149,32 @@
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             transform: translateX(400px);
             transition: transform 0.3s ease;
         }
-        
+
         .notification.show {
             transform: translateX(0);
         }
-        
+
         .notification.error {
             background: #dc3545;
         }
-        
+
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
             }
-            
+
             .payment-header h1 {
                 font-size: 2rem;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- ===================== HEADER ===================== -->
     <header class="header">
@@ -221,31 +223,32 @@
                     <form id="paymentForm">
                         <div class="form-group">
                             <label for="cardNumber">Numéro de carte</label>
-                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"
+                                required>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="expiryDate">Date d'expiration</label>
                                 <input type="text" id="expiryDate" placeholder="MM/AA" maxlength="5" required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="cvv">CVV</label>
                                 <input type="text" id="cvv" placeholder="123" maxlength="3" required>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="cardName">Nom sur la carte</label>
                             <input type="text" id="cardName" placeholder="Jean Dupont" required>
                         </div>
-                        
+
                         <button type="submit" class="payment-btn" id="submitBtn">
                             <i class="fas fa-check"></i> Confirmer le paiement
                         </button>
                     </form>
-                    
+
                     <a href="panier.php" class="back-btn">
                         <i class="fas fa-arrow-left"></i> Retour au panier
                     </a>
@@ -304,16 +307,16 @@
         function renderOrderSummary() {
             const cart = loadCart();
             const orderSummary = document.getElementById('orderSummary');
-            
+
             if (cart.length === 0) {
                 orderSummary.innerHTML = '<p>Votre panier est vide. <a href="panier.html">Retour au panier</a></p>';
                 document.getElementById('submitBtn').disabled = true;
                 return;
             }
-            
+
             let html = '';
             let total = 0;
-            
+
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
@@ -324,26 +327,26 @@
                     </div>
                 `;
             });
-            
+
             html += `
                 <div class="order-total">
                     <span>Total</span>
                     <span>${total.toFixed(2)} €</span>
                 </div>
             `;
-            
+
             orderSummary.innerHTML = html;
         }
 
         // Formatage du numéro de carte
-        document.getElementById('cardNumber').addEventListener('input', function(e) {
+        document.getElementById('cardNumber').addEventListener('input', function (e) {
             let value = e.target.value.replace(/\s/g, '');
             let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
             e.target.value = formattedValue;
         });
 
         // Formatage de la date d'expiration
-        document.getElementById('expiryDate').addEventListener('input', function(e) {
+        document.getElementById('expiryDate').addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length >= 2) {
                 value = value.substring(0, 2) + '/' + value.substring(2, 4);
@@ -352,32 +355,32 @@
         });
 
         // Formatage du CVV (chiffres uniquement)
-        document.getElementById('cvv').addEventListener('input', function(e) {
+        document.getElementById('cvv').addEventListener('input', function (e) {
             e.target.value = e.target.value.replace(/\D/g, '');
         });
 
         // Gestion de la soumission du formulaire
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        document.getElementById('paymentForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const cart = loadCart();
             if (cart.length === 0) {
                 showNotification('Votre panier est vide !', 'error');
                 return;
             }
-            
+
             // Désactiver le bouton pendant le traitement
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
-            
+
             // Simulation du traitement du paiement
             setTimeout(() => {
                 // Vider le panier après paiement réussi
                 localStorage.removeItem('filmogram_cart');
-                
+
                 showNotification('Paiement réussi ! Redirection...', 'success');
-                
+
                 // Redirection vers la page d'accueil après 2 secondes
                 setTimeout(() => {
                     window.location.href = '../index.html';
@@ -390,16 +393,16 @@
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.className = `notification ${type} show`;
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
         }
 
         // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             renderOrderSummary();
-            
+
             // Gestion du menu mobile
             document.querySelector('.nav-toggle').addEventListener('click', () => {
                 document.querySelector('.nav-menu').classList.toggle('active');
@@ -407,5 +410,5 @@
         });
     </script>
 </body>
-</html>
 
+</html>
